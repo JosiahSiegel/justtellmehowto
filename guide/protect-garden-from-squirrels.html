@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peanut Patch Squirrel Exclusion — Three Methods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --parchment: #F0E8D4;
+  --parchment-deep: #E5DBC0;
+  --ink: #2A2218;
+  --ink-soft: #5A4A38;
+  --green: #3D5A3F;
+  --green-deep: #2A4030;
+  --rust: #A8533A;
+  --soil: #8B6F47;
+  --soil-deep: #5A4530;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse at top, rgba(168, 83, 58, 0.06), transparent 60%),
+    radial-gradient(ellipse at bottom right, rgba(61, 90, 63, 0.07), transparent 60%);
+  min-height: 100vh;
+  padding: 28px 18px 60px;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.15 0 0 0 0 0.1 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.55;
+  z-index: 0;
+}
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+header {
+  text-align: center;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 22px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+header::after {
+  content: '';
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid var(--ink);
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+}
+
+.bulletin {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 14px;
+}
+
+h1 {
+  font-family: 'IM Fell English SC', serif;
+  font-size: clamp(26px, 6vw, 34px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: 0.015em;
+  color: var(--ink);
+}
+
+.sub {
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-top: 12px;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+}
+
+.lead {
+  font-style: italic;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 26px auto 10px;
+  max-width: 520px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.method {
+  margin-top: 44px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(42, 34, 24, 0.28);
+}
+
+.method:first-of-type { border-top: none; padding-top: 8px; }
+
+.method-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.method-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--rust);
+  text-transform: uppercase;
+}
+
+h2 {
+  font-family: 'IM Fell English SC', serif;
+  font-size: clamp(22px, 5vw, 26px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: 0.01em;
+}
+
+.use-when {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border: 1px solid var(--green);
+  color: var(--green);
+  margin-top: 8px;
+}
+
+.diagram {
+  background: var(--parchment-deep);
+  border: 1px solid rgba(42, 34, 24, 0.32);
+  padding: 14px 10px 10px;
+  margin: 18px 0;
+  box-shadow: 1px 2px 0 rgba(42, 34, 24, 0.08);
+}
+
+.diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.diagram-caption {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 6px;
+}
+
+.specs {
+  margin: 16px 0 4px;
+  padding: 10px 14px;
+  background: rgba(61, 90, 63, 0.07);
+  border-left: 3px solid var(--green);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.specs span { color: var(--ink-soft); display: inline-block; min-width: 92px; }
+.specs strong { color: var(--ink); font-weight: 500; }
+
+.body-text {
+  margin-top: 14px;
+  color: var(--ink);
+}
+
+.body-text p { margin-bottom: 10px; }
+
+footer {
+  margin-top: 56px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(42, 34, 24, 0.3);
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+footer .mark {
+  display: inline-block;
+  margin: 0 8px;
+  color: var(--rust);
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="bulletin">Field Bulletin № 03 · Arachis hypogaea Protection</div>
+    <h1>Three Methods<br>for In-Ground Peanut Exclusion</h1>
+    <div class="sub">½-inch galvanized hardware cloth · landscape pins · zero chemicals</div>
+  </header>
+
+  <p class="lead">Squirrels attack a peanut patch in two distinct phases: seed-digging in the first weeks, then pod-digging at maturity. Each method below corresponds to a phase, or a level of pressure.</p>
+
+  <!-- METHOD 1 -->
+  <section class="method">
+    <div class="method-head">
+      <span class="method-num">Method 01</span>
+    </div>
+    <h2>Tunnel Cloche</h2>
+    <span class="use-when">Use weeks 0–6 · seedling phase</span>
+
+    <div class="diagram">
+      <svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Side cross-section of arched hardware cloth tunnel over peanut row">
+        <defs>
+          <pattern id="mesh1" x="0" y="0" width="9" height="9" patternUnits="userSpaceOnUse">
+            <path d="M 9 0 L 0 0 0 9" stroke="#3D5A3F" stroke-width="0.55" fill="none" opacity="0.7"/>
+          </pattern>
+          <pattern id="soil1" x="0" y="0" width="13" height="13" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="3" r="0.7" fill="#5A4530" opacity="0.55"/>
+            <circle cx="8" cy="9" r="0.55" fill="#5A4530" opacity="0.45"/>
+            <circle cx="11" cy="2" r="0.45" fill="#5A4530" opacity="0.55"/>
+            <circle cx="5" cy="11" r="0.55" fill="#5A4530" opacity="0.4"/>
+          </pattern>
+        </defs>
+
+        <!-- Sky / above-ground subtle wash -->
+        <rect x="0" y="0" width="480" height="205" fill="#F0E8D4" opacity="0"/>
+
+        <!-- Soil band -->
+        <rect x="0" y="205" width="480" height="75" fill="#8B6F47" opacity="0.13"/>
+        <rect x="0" y="205" width="480" height="75" fill="url(#soil1)"/>
+        <line x1="0" y1="205" x2="480" y2="205" stroke="#2A2218" stroke-width="1.2"/>
+
+        <!-- Peanut plant inside arch (drawn first so arch overlays slightly) -->
+        <g transform="translate(240, 205)">
+          <line x1="0" y1="0" x2="0" y2="-48" stroke="#3D5A3F" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="0" y1="-22" x2="-14" y2="-36" stroke="#3D5A3F" stroke-width="1.4"/>
+          <line x1="0" y1="-22" x2="14" y2="-36" stroke="#3D5A3F" stroke-width="1.4"/>
+          <ellipse cx="-15" cy="-37" rx="7" ry="3" fill="#3D5A3F" transform="rotate(-30 -15 -37)"/>
+          <ellipse cx="15" cy="-37" rx="7" ry="3" fill="#3D5A3F" transform="rotate(30 15 -37)"/>
+          <ellipse cx="-5" cy="-50" rx="7" ry="3" fill="#3D5A3F" transform="rotate(-15 -5 -50)"/>
+          <ellipse cx="5" cy="-50" rx="7" ry="3" fill="#3D5A3F" transform="rotate(15 5 -50)"/>
+        </g>
+
+        <!-- Skirt (flat hardware cloth) on either side of arch -->
+        <line x1="48" y1="205" x2="122" y2="205" stroke="#3D5A3F" stroke-width="2.8" stroke-linecap="round" opacity="0.85"/>
+        <line x1="358" y1="205" x2="432" y2="205" stroke="#3D5A3F" stroke-width="2.8" stroke-linecap="round" opacity="0.85"/>
+
+        <!-- Arched hardware cloth -->
+        <path d="M 122 205 Q 240 55 358 205" fill="url(#mesh1)" stroke="#3D5A3F" stroke-width="2" stroke-linejoin="round"/>
+
+        <!-- Pins along the skirt (V shapes) -->
+        <g stroke="#A8533A" stroke-width="1.4" fill="none" stroke-linecap="round">
+          <path d="M 58 203 L 58 213 M 54 205 L 62 205"/>
+          <path d="M 82 203 L 82 213 M 78 205 L 86 205"/>
+          <path d="M 108 203 L 108 213 M 104 205 L 112 205"/>
+          <path d="M 372 203 L 372 213 M 368 205 L 376 205"/>
+          <path d="M 396 203 L 396 213 M 392 205 L 400 205"/>
+          <path d="M 422 203 L 422 213 M 418 205 L 426 205"/>
+        </g>
+
+        <!-- Dimension: base width -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none">
+          <line x1="122" y1="232" x2="358" y2="232"/>
+          <line x1="122" y1="227" x2="122" y2="237"/>
+          <line x1="358" y1="227" x2="358" y2="237"/>
+        </g>
+        <text x="240" y="251" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A">~24" base</text>
+
+        <!-- Dimension: height -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none">
+          <line x1="448" y1="55" x2="448" y2="205"/>
+          <line x1="443" y1="55" x2="453" y2="55"/>
+          <line x1="443" y1="205" x2="453" y2="205"/>
+        </g>
+        <text x="450" y="130" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A" transform="rotate(-90 450 130)">12–18" tall</text>
+
+        <!-- Labels -->
+        <g font-family="Crimson Pro, serif" font-size="12.5" font-style="italic" fill="#2A2218">
+          <text x="158" y="98">hardware cloth arch</text>
+          <line x1="218" y1="93" x2="232" y2="115" stroke="#2A2218" stroke-width="0.55" fill="none"/>
+
+          <text x="6" y="196">skirt (4–6")</text>
+          <line x1="60" y1="199" x2="70" y2="203" stroke="#2A2218" stroke-width="0.55"/>
+
+          <text x="18" y="225">landscape pin</text>
+          <line x1="58" y1="222" x2="58" y2="214" stroke="#2A2218" stroke-width="0.55"/>
+        </g>
+
+        <text x="240" y="16" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="0.16em" fill="#5A4A38">— SIDE VIEW —</text>
+      </svg>
+      <div class="diagram-caption">cross-section · single-row tunnel</div>
+    </div>
+
+    <div class="specs">
+      <div><span>Cut strip:</span> <strong>36" wide × (row length + 12")</strong></div>
+      <div><span>Bend over:</span> <strong>a 5-gallon bucket or by hand</strong></div>
+      <div><span>Pin spacing:</span> <strong>every 12–18" along both skirts</strong></div>
+      <div><span>End caps:</span> <strong>cut squares, pin down — no open ends</strong></div>
+    </div>
+
+    <div class="body-text">
+      <p>Sits over the row like a half-pipe. Easiest to build, fastest to lift off when you need to weed. Works until plants outgrow the arch height — then move to Method 2.</p>
+    </div>
+  </section>
+
+  <!-- METHOD 2 -->
+  <section class="method">
+    <div class="method-head">
+      <span class="method-num">Method 02</span>
+    </div>
+    <h2>Ground Skirt</h2>
+    <span class="use-when">Use weeks 6+ · pod / maturity phase</span>
+
+    <div class="diagram">
+      <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down view of hardware cloth ground skirt around peanut plant with slit for stem">
+        <defs>
+          <pattern id="mesh2" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+            <path d="M 14 0 L 0 0 0 14" stroke="#3D5A3F" stroke-width="0.6" fill="none" opacity="0.7"/>
+          </pattern>
+        </defs>
+
+        <!-- Background subtle soil tint -->
+        <rect x="0" y="0" width="480" height="380" fill="#8B6F47" opacity="0.06"/>
+
+        <!-- The hardware cloth square -->
+        <rect x="80" y="70" width="320" height="240" fill="url(#mesh2)" stroke="#3D5A3F" stroke-width="2"/>
+
+        <!-- Slit (dashed line indicating the cut from edge to center) -->
+        <line x1="240" y1="70" x2="240" y2="190" stroke="#F0E8D4" stroke-width="4"/>
+        <line x1="240" y1="70" x2="240" y2="190" stroke="#A8533A" stroke-width="1" stroke-dasharray="4 3"/>
+
+        <!-- Peanut plant top view -->
+        <g transform="translate(240, 190)">
+          <ellipse cx="0" cy="-24" rx="7" ry="16" fill="#3D5A3F" opacity="0.88"/>
+          <ellipse cx="-21" cy="-12" rx="7" ry="16" fill="#3D5A3F" opacity="0.88" transform="rotate(-60 -21 -12)"/>
+          <ellipse cx="21" cy="-12" rx="7" ry="16" fill="#3D5A3F" opacity="0.88" transform="rotate(60 21 -12)"/>
+          <ellipse cx="-21" cy="12" rx="7" ry="16" fill="#3D5A3F" opacity="0.88" transform="rotate(-120 -21 12)"/>
+          <ellipse cx="21" cy="12" rx="7" ry="16" fill="#3D5A3F" opacity="0.88" transform="rotate(120 21 12)"/>
+          <ellipse cx="0" cy="24" rx="7" ry="16" fill="#3D5A3F" opacity="0.88"/>
+          <circle cx="0" cy="0" r="5" fill="#5A4530"/>
+        </g>
+
+        <!-- Pins around perimeter -->
+        <g stroke="#A8533A" stroke-width="1.4" fill="none" stroke-linecap="round">
+          <!-- top -->
+          <path d="M 100 66 L 100 74 M 96 70 L 104 70"/>
+          <path d="M 140 66 L 140 74 M 136 70 L 144 70"/>
+          <path d="M 180 66 L 180 74 M 176 70 L 184 70"/>
+          <path d="M 300 66 L 300 74 M 296 70 L 304 70"/>
+          <path d="M 340 66 L 340 74 M 336 70 L 344 70"/>
+          <path d="M 380 66 L 380 74 M 376 70 L 384 70"/>
+          <!-- bottom -->
+          <path d="M 100 306 L 100 314 M 96 310 L 104 310"/>
+          <path d="M 140 306 L 140 314 M 136 310 L 144 310"/>
+          <path d="M 180 306 L 180 314 M 176 310 L 184 310"/>
+          <path d="M 240 306 L 240 314 M 236 310 L 244 310"/>
+          <path d="M 300 306 L 300 314 M 296 310 L 304 310"/>
+          <path d="M 340 306 L 340 314 M 336 310 L 344 310"/>
+          <path d="M 380 306 L 380 314 M 376 310 L 384 310"/>
+          <!-- left -->
+          <path d="M 76 110 L 84 110 M 80 106 L 80 114"/>
+          <path d="M 76 150 L 84 150 M 80 146 L 80 154"/>
+          <path d="M 76 190 L 84 190 M 80 186 L 80 194"/>
+          <path d="M 76 230 L 84 230 M 80 226 L 80 234"/>
+          <path d="M 76 270 L 84 270 M 80 266 L 80 274"/>
+          <!-- right -->
+          <path d="M 396 110 L 404 110 M 400 106 L 400 114"/>
+          <path d="M 396 150 L 404 150 M 400 146 L 400 154"/>
+          <path d="M 396 190 L 404 190 M 400 186 L 400 194"/>
+          <path d="M 396 230 L 404 230 M 400 226 L 400 234"/>
+          <path d="M 396 270 L 404 270 M 400 266 L 400 274"/>
+        </g>
+
+        <!-- Dimension: extension distance -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none">
+          <line x1="240" y1="335" x2="400" y2="335"/>
+          <line x1="240" y1="330" x2="240" y2="340"/>
+          <line x1="400" y1="330" x2="400" y2="340"/>
+        </g>
+        <text x="320" y="354" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A">8–12" out from stem</text>
+
+        <!-- Labels -->
+        <g font-family="Crimson Pro, serif" font-size="12.5" font-style="italic" fill="#2A2218">
+          <text x="262" y="44">slit cut for stem</text>
+          <line x1="270" y1="49" x2="244" y2="68" stroke="#2A2218" stroke-width="0.55" fill="none"/>
+
+          <text x="6" y="56">cloth laid flat to ground</text>
+          <line x1="86" y1="58" x2="92" y2="70" stroke="#2A2218" stroke-width="0.55" fill="none"/>
+
+          <text x="404" y="56">pin every 8–12"</text>
+          <line x1="416" y1="60" x2="404" y2="68" stroke="#2A2218" stroke-width="0.55" fill="none"/>
+        </g>
+
+        <text x="240" y="22" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="0.16em" fill="#5A4A38">— TOP-DOWN VIEW —</text>
+      </svg>
+      <div class="diagram-caption">plan view · per-plant skirt with stem slit</div>
+    </div>
+
+    <div class="specs">
+      <div><span>Cut squares:</span> <strong>24"–30" per plant, or a long strip for the row</strong></div>
+      <div><span>Stem slit:</span> <strong>edge → center, just wide enough to slide around stem</strong></div>
+      <div><span>Pin spacing:</span> <strong>every 8–12" around perimeter — flat to soil</strong></div>
+      <div><span>Cover with:</span> <strong>straw or pine needle mulch (hides the wire)</strong></div>
+    </div>
+
+    <div class="body-text">
+      <p>Squirrels go straight down at the base of the plant to reach pods. Make them dig 8–12" out from the stem and they almost universally give up. Weeds will grow through the mesh — fine, that's the trade-off.</p>
+    </div>
+  </section>
+
+  <!-- METHOD 3 -->
+  <section class="method">
+    <div class="method-head">
+      <span class="method-num">Method 03</span>
+    </div>
+    <h2>Full Cage</h2>
+    <span class="use-when">Use when pressure is heavy · season-long protection</span>
+
+    <div class="diagram">
+      <svg viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three-quarter perspective view of a wooden-framed hardware cloth cage over peanut plants">
+        <defs>
+          <pattern id="mesh3" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M 10 0 L 0 0 0 10" stroke="#3D5A3F" stroke-width="0.55" fill="none" opacity="0.55"/>
+          </pattern>
+          <pattern id="soil3" x="0" y="0" width="13" height="13" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="3" r="0.65" fill="#5A4530" opacity="0.5"/>
+            <circle cx="8" cy="9" r="0.55" fill="#5A4530" opacity="0.45"/>
+            <circle cx="11" cy="2" r="0.45" fill="#5A4530" opacity="0.55"/>
+            <circle cx="5" cy="11" r="0.55" fill="#5A4530" opacity="0.4"/>
+          </pattern>
+        </defs>
+
+        <!-- Ground -->
+        <rect x="0" y="265" width="480" height="75" fill="#8B6F47" opacity="0.13"/>
+        <rect x="0" y="265" width="480" height="75" fill="url(#soil3)"/>
+        <line x1="0" y1="265" x2="480" y2="265" stroke="#2A2218" stroke-width="1.2"/>
+
+        <!-- Ground skirt extending outward (subtle, dashed outline) -->
+        <polygon points="65,265 105,290 415,290 455,265" fill="#3D5A3F" opacity="0.10" stroke="#3D5A3F" stroke-width="1" stroke-dasharray="3 2"/>
+
+        <!-- Cage geometry (3/4 perspective)
+             Front-bottom-left: (90, 265)
+             Front-bottom-right: (430, 265)
+             Front-top-left: (90, 175)
+             Front-top-right: (430, 175)
+             Back-top-left: (130, 130)
+             Back-top-right: (390, 130)
+             Back-bottom-left: (130, 240) [hidden behind front]
+             Back-bottom-right: (390, 240)
+        -->
+
+        <!-- Right side face (mesh) -->
+        <polygon points="430,175 390,130 390,240 430,265" fill="url(#mesh3)" stroke="#5A4530" stroke-width="2"/>
+
+        <!-- Top face / lid (mesh) -->
+        <polygon points="90,175 130,130 390,130 430,175" fill="url(#mesh3)" stroke="#5A4530" stroke-width="2"/>
+
+        <!-- Front face (mesh) -->
+        <polygon points="90,175 430,175 430,265 90,265" fill="url(#mesh3)" stroke="#5A4530" stroke-width="2"/>
+
+        <!-- Plants visible inside (drawn over the front mesh, slight transparency suggests through-mesh view) -->
+        <g opacity="0.92">
+          <g transform="translate(170, 260)">
+            <line x1="0" y1="0" x2="0" y2="-34" stroke="#3D5A3F" stroke-width="1.5" stroke-linecap="round"/>
+            <ellipse cx="-9" cy="-28" rx="5.5" ry="2.7" fill="#3D5A3F" transform="rotate(-30 -9 -28)"/>
+            <ellipse cx="9" cy="-28" rx="5.5" ry="2.7" fill="#3D5A3F" transform="rotate(30 9 -28)"/>
+            <ellipse cx="0" cy="-36" rx="5.5" ry="2.7" fill="#3D5A3F"/>
+          </g>
+          <g transform="translate(260, 260)">
+            <line x1="0" y1="0" x2="0" y2="-38" stroke="#3D5A3F" stroke-width="1.5" stroke-linecap="round"/>
+            <ellipse cx="-9" cy="-32" rx="5.5" ry="2.7" fill="#3D5A3F" transform="rotate(-30 -9 -32)"/>
+            <ellipse cx="9" cy="-32" rx="5.5" ry="2.7" fill="#3D5A3F" transform="rotate(30 9 -32)"/>
+            <ellipse cx="0" cy="-40" rx="5.5" ry="2.7" fill="#3D5A3F"/>
+          </g>
+          <g transform="translate(350, 260)">
+            <line x1="0" y1="0" x2="0" y2="-32" stroke="#3D5A3F" stroke-width="1.5" stroke-linecap="round"/>
+            <ellipse cx="-9" cy="-26" rx="5.5" ry="2.7" fill="#3D5A3F" transform="rotate(-30 -9 -26)"/>
+            <ellipse cx="9" cy="-26" rx="5.5" ry="2.7" fill="#3D5A3F" transform="rotate(30 9 -26)"/>
+            <ellipse cx="0" cy="-34" rx="5.5" ry="2.7" fill="#3D5A3F"/>
+          </g>
+        </g>
+
+        <!-- Wood frame edges (thick, dark brown) drawn over so frame reads as wood -->
+        <g stroke="#5A4530" stroke-width="3.5" fill="none" stroke-linecap="round">
+          <!-- top rim front -->
+          <line x1="90" y1="175" x2="430" y2="175"/>
+          <!-- top rim back -->
+          <line x1="130" y1="130" x2="390" y2="130"/>
+          <!-- top rim left diagonal -->
+          <line x1="90" y1="175" x2="130" y2="130"/>
+          <!-- top rim right diagonal -->
+          <line x1="430" y1="175" x2="390" y2="130"/>
+          <!-- front verticals -->
+          <line x1="90" y1="175" x2="90" y2="265"/>
+          <line x1="430" y1="175" x2="430" y2="265"/>
+          <!-- back verticals -->
+          <line x1="130" y1="130" x2="130" y2="240"/>
+          <line x1="390" y1="130" x2="390" y2="240"/>
+          <!-- back bottom rail -->
+          <line x1="130" y1="240" x2="390" y2="240"/>
+          <!-- right bottom diagonal -->
+          <line x1="430" y1="265" x2="390" y2="240"/>
+          <!-- front bottom rail -->
+          <line x1="90" y1="265" x2="430" y2="265"/>
+        </g>
+
+        <!-- Hinge marks on back-top rail -->
+        <g fill="#A8533A" stroke="#A8533A" stroke-width="1">
+          <rect x="195" y="126" width="14" height="6" rx="1" fill="#A8533A" opacity="0.85"/>
+          <rect x="311" y="126" width="14" height="6" rx="1" fill="#A8533A" opacity="0.85"/>
+        </g>
+
+        <!-- Pins along the front skirt -->
+        <g stroke="#A8533A" stroke-width="1.4" fill="none" stroke-linecap="round">
+          <path d="M 130 288 L 130 296 M 126 292 L 134 292"/>
+          <path d="M 200 288 L 200 296 M 196 292 L 204 292"/>
+          <path d="M 280 288 L 280 296 M 276 292 L 284 292"/>
+          <path d="M 360 288 L 360 296 M 356 292 L 364 292"/>
+        </g>
+
+        <!-- Dimension: height -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none">
+          <line x1="458" y1="175" x2="458" y2="265"/>
+          <line x1="453" y1="175" x2="463" y2="175"/>
+          <line x1="453" y1="265" x2="463" y2="265"/>
+        </g>
+        <text x="462" y="222" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A" transform="rotate(-90 462 222)">~18"</text>
+
+        <!-- Labels -->
+        <g font-family="Crimson Pro, serif" font-size="12.5" font-style="italic" fill="#2A2218">
+          <text x="6" y="118">hinged lid</text>
+          <line x1="60" y1="121" x2="195" y2="130" stroke="#2A2218" stroke-width="0.55" fill="none"/>
+
+          <text x="6" y="200">1×2 wood frame</text>
+          <line x1="76" y1="196" x2="90" y2="195" stroke="#2A2218" stroke-width="0.55" fill="none"/>
+
+          <text x="365" y="160">mesh on all sides</text>
+          <line x1="395" y1="164" x2="412" y2="195" stroke="#2A2218" stroke-width="0.55" fill="none"/>
+
+          <text x="200" y="322">ground skirt (pinned, extends out)</text>
+          <line x1="270" y1="316" x2="270" y2="294" stroke="#2A2218" stroke-width="0.55" fill="none"/>
+        </g>
+
+        <text x="240" y="22" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="0.16em" fill="#5A4A38">— 3/4 PERSPECTIVE —</text>
+      </svg>
+      <div class="diagram-caption">enclosed cage · lid hinges at rear</div>
+    </div>
+
+    <div class="specs">
+      <div><span>Frame:</span> <strong>1×2 lumber, screwed at corners</strong></div>
+      <div><span>Mesh:</span> <strong>hardware cloth stapled to top + all four sides</strong></div>
+      <div><span>Bottom:</span> <strong>open — use a ground skirt (Method 2) around the base</strong></div>
+      <div><span>Lid:</span> <strong>hinged at back so you can flip it open to weed/water</strong></div>
+    </div>
+
+    <div class="body-text">
+      <p>Overkill for a casual patch — necessary if you have a known squirrel highway through the yard. The hinged lid is the difference between a cage you'll actually maintain and one you'll abandon by July.</p>
+    </div>
+  </section>
+
+  <footer>
+    Field Bulletin <span class="mark">·</span> Youngsville NC <span class="mark">·</span> Wear gloves
+  </footer>
+
+</div>
+</body>
+</html>
