@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kit-Based Walk-In Rabbit Run — Upgrades, Base & Build</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--parchment:#F0E8D4;--parchment-deep:#E5DBC0;--ink:#2A2218;--ink-soft:#5A4A38;--green:#3D5A3F;--green-deep:#2A4030;--rust:#A8533A;--soil:#8B6F47;--soil-deep:#5A4530;--fur:#6E5A42;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--parchment);color:var(--ink);font-family:'Crimson Pro',Georgia,serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+body{background-image:radial-gradient(ellipse at top,rgba(168,83,58,0.06),transparent 60%),radial-gradient(ellipse at bottom right,rgba(61,90,63,0.07),transparent 60%);min-height:100vh;padding:28px 18px 60px;position:relative;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.15 0 0 0 0 0.1 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:0.55;z-index:0;}
+.wrap{max-width:720px;margin:0 auto;position:relative;z-index:1;}
+header{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:22px;margin-bottom:12px;position:relative;}
+header::after{content:'';display:block;width:100%;border-bottom:1px solid var(--ink);position:absolute;bottom:-5px;left:0;}
+.bulletin{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--rust);margin-bottom:14px;}
+h1{font-family:'IM Fell English SC',serif;font-size:clamp(26px,6vw,34px);font-weight:400;line-height:1.08;letter-spacing:0.015em;}
+.sub{font-style:italic;color:var(--ink-soft);margin-top:12px;font-size:14px;}
+.lead{font-style:italic;color:var(--ink-soft);text-align:center;margin:26px auto 10px;max-width:560px;font-size:15px;}
+.method{margin-top:44px;padding-top:28px;border-top:1px solid rgba(42,34,24,0.28);}
+.method:first-of-type{border-top:none;padding-top:8px;}
+.method-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px;}
+.method-num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.22em;color:var(--rust);text-transform:uppercase;}
+h2{font-family:'IM Fell English SC',serif;font-size:clamp(22px,5vw,26px);font-weight:400;line-height:1.12;}
+.use-when{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:3px 9px;border:1px solid var(--green);color:var(--green);margin-top:8px;}
+.diagram{background:var(--parchment-deep);border:1px solid rgba(42,34,24,0.32);padding:14px 10px 10px;margin:18px 0;box-shadow:1px 2px 0 rgba(42,34,24,0.08);}
+.diagram svg{display:block;width:100%;height:auto;}
+.diagram-caption{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-soft);text-align:center;margin-top:6px;}
+.specs{margin:16px 0 4px;padding:10px 14px;background:rgba(61,90,63,0.07);border-left:3px solid var(--green);font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;}
+.specs span{color:var(--ink-soft);display:inline-block;min-width:96px;}
+.specs strong{color:var(--ink);font-weight:500;}
+.body-text{margin-top:14px;}
+.body-text p{margin-bottom:10px;}
+.warn{margin:16px 0 4px;padding:10px 14px;background:rgba(168,83,58,0.09);border-left:3px solid var(--rust);font-size:14.5px;}
+.warn b{font-variant:small-caps;letter-spacing:0.03em;color:var(--rust);}
+.bom-label{font-family:'IM Fell English SC',serif;font-size:17px;margin:22px 0 2px;letter-spacing:0.02em;color:var(--green-deep);}
+.bom-label:first-of-type{margin-top:10px;}
+.note{font-style:italic;color:var(--ink-soft);font-size:13.5px;margin-top:6px;}
+.phase{margin-top:20px;}
+.phase-label{font-family:'IM Fell English SC',serif;font-size:17px;margin:0 0 6px;letter-spacing:0.02em;color:var(--green-deep);}
+.phase-label .pn{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--rust);margin-right:9px;letter-spacing:0.12em;}
+.steps{margin:0 0 4px 0;padding-left:24px;}
+.steps li{margin-bottom:7px;padding-left:4px;}
+.steps li::marker{color:var(--rust);font-family:'JetBrains Mono',monospace;font-size:12px;}
+.tip{font-style:italic;color:var(--ink-soft);font-size:13.5px;margin:5px 0 0;padding-left:4px;}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid rgba(42,34,24,0.3);text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-soft);}
+footer .mark{display:inline-block;margin:0 8px;color:var(--rust);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="bulletin">Field Bulletin № 04 · Oryctolagus Containment</div>
+    <h1>Kit-Based Walk-In Run<br>for Two Free-Roaming Bunnies</h1>
+    <div class="sub">Quictent 12 × 9 × 6.6 ft kit + ½" hardware-cloth upgrades · buried footer · hutch inside · deck-anchored, slope-ready</div>
+  </header>
+
+  <p class="lead">The kit hands you the frame, the walk-in height, and a weather cover — the bulk of the labor. But it ships with ~1" chicken-grade mesh and an open bottom, so the work that actually makes it rabbit-safe is yours: line the gaps with ½" cloth, dig-proof the floor, and anchor it. The hutch lives inside.</p>
+
+  <div class="warn">
+    <b>The one thing the kit's label gets wrong</b> — its mesh is ~0.78–1", not ½". At that size a raccoon can reach a paw through and a small rabbit can squeeze out, so "predator proof" is true for chickens, not for rabbits as-shipped. The ½" lining below is not optional.
+  </div>
+
+  <!-- PLAN 01: LAYOUT -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Plan 01</span></div>
+    <h2>The Layout</h2>
+    <span class="use-when">Top-down · 12 × 9 ft kit footprint · hutch inside</span>
+
+    <div class="diagram">
+      <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down plan of a 12 by 9 foot kit run with the hutch inside on the high end, kit door at the front, deck on the high side, downhill on the far end">
+        <defs>
+          <pattern id="grass1" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M3 14 q1 -5 0 -8 M8 14 q-1 -4 1 -7 M13 14 q1 -5 -1 -7" stroke="#3D5A3F" stroke-width="0.7" fill="none" opacity="0.5"/></pattern>
+        </defs>
+
+        <!-- Footer apron (dashed, outside) -->
+        <rect x="62" y="50" width="356" height="262" rx="6" fill="none" stroke="#A8533A" stroke-width="1" stroke-dasharray="5 4"/>
+
+        <!-- Run footprint (grass) -->
+        <rect x="80" y="68" width="320" height="226" rx="4" fill="#3D5A3F" opacity="0.10"/>
+        <rect x="80" y="68" width="320" height="226" rx="4" fill="url(#grass1)"/>
+        <rect x="80" y="68" width="320" height="226" rx="4" fill="none" stroke="#3D5A3F" stroke-width="2"/>
+
+        <!-- Deck (high side) + anchor ties -->
+        <rect x="30" y="62" width="22" height="238" fill="#8B6F47" opacity="0.4" stroke="#5A4530" stroke-width="1.4"/>
+        <line x1="30" y1="120" x2="52" y2="120" stroke="#5A4530" stroke-width="0.8" opacity="0.6"/>
+        <line x1="30" y1="180" x2="52" y2="180" stroke="#5A4530" stroke-width="0.8" opacity="0.6"/>
+        <line x1="30" y1="240" x2="52" y2="240" stroke="#5A4530" stroke-width="0.8" opacity="0.6"/>
+        <g stroke="#A8533A" stroke-width="1.3"><line x1="52" y1="150" x2="80" y2="150"/><line x1="52" y1="250" x2="80" y2="250"/></g>
+
+        <!-- Hutch inside on the HIGH (left) end, on a paver pad -->
+        <rect x="86" y="150" width="78" height="130" rx="2" fill="none" stroke="#5A4530" stroke-width="1" stroke-dasharray="3 2"/>
+        <rect x="94" y="158" width="64" height="114" rx="3" fill="#8B6F47" opacity="0.5" stroke="#5A4530" stroke-width="2"/>
+        <rect x="102" y="166" width="28" height="36" rx="2" fill="#5A4530" opacity="0.35"/>
+        <rect x="158" y="210" width="6" height="24" fill="#F0E8D4"/>
+
+        <!-- Kit door on the front (bottom) wall -->
+        <rect x="220" y="291" width="60" height="6" fill="#F0E8D4"/>
+        <line x1="220" y1="294" x2="280" y2="294" stroke="#A8533A" stroke-width="1.4"/>
+        <path d="M 280 294 Q 268 262 232 268" fill="none" stroke="#A8533A" stroke-width="0.8" stroke-dasharray="3 2"/>
+        <circle cx="280" cy="294" r="2.4" fill="#A8533A"/>
+
+        <!-- Hide + tunnel + water (open) -->
+        <rect x="196" y="246" width="44" height="32" rx="3" fill="#8B6F47" opacity="0.5" stroke="#5A4530" stroke-width="1.4"/>
+        <path d="M 210 200 q 28 -14 56 0" fill="none" stroke="#5A4530" stroke-width="9" stroke-linecap="round" opacity="0.45"/>
+        <circle cx="250" cy="140" r="9" fill="none" stroke="#3D5A3F" stroke-width="1.6"/>
+        <circle cx="250" cy="140" r="3" fill="#3D5A3F" opacity="0.5"/>
+
+        <!-- Rabbits -->
+        <g fill="#6E5A42" opacity="0.9">
+          <g transform="translate(230,108)"><ellipse cx="0" cy="0" rx="10" ry="13"/><ellipse cx="-3" cy="-14" rx="2" ry="6"/><ellipse cx="3" cy="-14" rx="2" ry="6"/></g>
+          <g transform="translate(320,250) rotate(25)"><ellipse cx="0" cy="0" rx="10" ry="13"/><ellipse cx="-3" cy="-14" rx="2" ry="6"/><ellipse cx="3" cy="-14" rx="2" ry="6"/></g>
+        </g>
+
+        <!-- Gravel + downhill (far right end) -->
+        <g fill="#5A4530" opacity="0.5"><circle cx="408" cy="110" r="2.2"/><circle cx="413" cy="150" r="2.5"/><circle cx="408" cy="190" r="2.2"/><circle cx="413" cy="230" r="2.4"/><circle cx="408" cy="268" r="2.3"/></g>
+        <path d="M 372 320 l 30 0 M 397 314 l 6 6 l -6 6" fill="none" stroke="#A8533A" stroke-width="1.3"/>
+
+        <!-- Dims -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none"><line x1="80" y1="308" x2="400" y2="308"/><line x1="80" y1="303" x2="80" y2="313"/><line x1="400" y1="303" x2="400" y2="313"/></g>
+        <text x="240" y="324" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A">~12 ft</text>
+        <g stroke="#A8533A" stroke-width="0.8" fill="none"><line x1="436" y1="68" x2="436" y2="294"/><line x1="431" y1="68" x2="441" y2="68"/><line x1="431" y1="294" x2="441" y2="294"/></g>
+        <text x="454" y="181" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A" transform="rotate(-90 454 181)">~9 ft</text>
+
+        <!-- Labels -->
+        <g font-family="Crimson Pro, serif" font-size="12.5" font-style="italic" fill="#2A2218">
+          <text x="86" y="146">hutch (inside · high end)</text>
+          <text x="90" y="290" font-size="11">paver pad</text>
+          <text x="250" y="318" text-anchor="middle" font-size="11">kit door</text>
+          <text x="198" y="242" font-size="11">hide</text>
+          <text x="214" y="194" font-size="11">tunnel</text>
+          <text x="262" y="144" font-size="11">water</text>
+          <text x="20" y="190" text-anchor="middle" transform="rotate(-90 20 190)" font-size="11" fill="#5A4530">DECK · shades + anchors</text>
+          <text x="405" y="100" font-size="10" fill="#5A4530">gravel</text>
+          <text x="372" y="313" font-size="10.5" fill="#A8533A">downhill</text>
+        </g>
+        <text x="240" y="18" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="0.16em" fill="#5A4A38">— PLAN VIEW —</text>
+      </svg>
+      <div class="diagram-caption">kit footprint · hutch + deck on the high end · kit tarp covers the whole top</div>
+    </div>
+
+    <div class="specs">
+      <div><span>Footprint:</span> <strong>the kit's 12 × 9 ft, ~6.6 ft tall — bigger than a from-scratch 8×8, plenty for two</strong></div>
+      <div><span>Hutch:</span> <strong>sits fully inside on the high/driest end; shelter only — the lined perimeter is the predator barrier</strong></div>
+      <div><span>Cover:</span> <strong>the kit's PE tarp shades and rains-off the whole top; the deck adds shade on the high end</strong></div>
+      <div><span>Door:</span> <strong>the kit's own walk-in door — line it with ½" cloth like the walls (see Plan 02)</strong></div>
+      <div><span>Site:</span> <strong>clear the weeds + toxic lilies first; keep clear of the utility door swing, dryer vent, and downspout runoff</strong></div>
+    </div>
+  </section>
+
+  <!-- PLAN 02: KIT WALL + LINER -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Plan 02</span></div>
+    <h2>Kit Wall + ½" Liner</h2>
+    <span class="use-when">Cross-section · the upgrade that makes it rabbit-safe</span>
+
+    <div class="diagram">
+      <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cross-section of the kit wall with its 1 inch mesh, a half-inch hardware-cloth liner on the lower section, the tarp cover on top, hutch inside, and a person for scale">
+        <defs>
+          <pattern id="kitmesh" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse"><path d="M 15 0 L 0 0 0 15" stroke="#5A4530" stroke-width="0.7" fill="none" opacity="0.55"/></pattern>
+          <pattern id="liner" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse"><path d="M 7 0 L 0 0 0 7" stroke="#3D5A3F" stroke-width="0.55" fill="none" opacity="0.8"/></pattern>
+          <pattern id="soilK" x="0" y="0" width="13" height="13" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="0.7" fill="#5A4530" opacity="0.55"/><circle cx="8" cy="9" r="0.55" fill="#5A4530" opacity="0.45"/><circle cx="11" cy="2" r="0.45" fill="#5A4530" opacity="0.55"/></pattern>
+        </defs>
+
+        <!-- Ground -->
+        <rect x="0" y="316" width="480" height="44" fill="#8B6F47" opacity="0.13"/>
+        <rect x="0" y="316" width="480" height="44" fill="url(#soilK)"/>
+        <line x1="0" y1="316" x2="480" y2="316" stroke="#2A2218" stroke-width="1.2"/>
+
+        <!-- Kit tarp cover (peaked) on top -->
+        <path d="M 86 70 L 240 48 L 394 70" fill="none" stroke="#5A4530" stroke-width="3"/>
+        <path d="M 86 70 L 240 48 L 394 70 L 394 78 L 240 56 L 86 78 Z" fill="#5A4530" opacity="0.3"/>
+
+        <!-- Kit frame posts (steel) -->
+        <line x1="90" y1="70" x2="90" y2="316" stroke="#9a9a96" stroke-width="4"/>
+        <line x1="390" y1="70" x2="390" y2="316" stroke="#9a9a96" stroke-width="4"/>
+
+        <!-- Kit ~1in mesh full height -->
+        <rect x="86" y="78" width="9" height="238" fill="url(#kitmesh)" stroke="#5A4530" stroke-width="1"/>
+        <rect x="385" y="78" width="9" height="238" fill="url(#kitmesh)" stroke="#5A4530" stroke-width="1"/>
+
+        <!-- ½" liner on the lower ~2.5 ft (inside face) -->
+        <rect x="95" y="226" width="7" height="90" fill="url(#liner)" stroke="#3D5A3F" stroke-width="1.4"/>
+        <rect x="378" y="226" width="7" height="90" fill="url(#liner)" stroke="#3D5A3F" stroke-width="1.4"/>
+
+        <!-- Person for scale -->
+        <g fill="#5A4A38" opacity="0.32">
+          <circle cx="285" cy="138" r="15"/>
+          <path d="M268 156 q17 -9 34 0 l 9 92 q-26 12 -52 0 z"/>
+          <rect x="276" y="248" width="12" height="68" rx="3"/>
+          <rect x="292" y="248" width="12" height="68" rx="3"/>
+        </g>
+
+        <!-- Hutch inside (high/left end) -->
+        <rect x="108" y="252" width="84" height="64" rx="3" fill="#8B6F47" opacity="0.5" stroke="#5A4530" stroke-width="2"/>
+        <path d="M 106 252 L 150 238 L 194 252 Z" fill="#5A4530" opacity="0.4"/>
+        <rect x="118" y="272" width="20" height="44" fill="#5A4530" opacity="0.3"/>
+
+        <!-- Footer stubs -->
+        <path d="M 90 316 L 90 336 M 90 328 L 66 328" stroke="#3D5A3F" stroke-width="2" fill="none" opacity="0.8"/>
+        <path d="M 390 316 L 390 336 M 390 328 L 414 328" stroke="#3D5A3F" stroke-width="2" fill="none" opacity="0.8"/>
+
+        <!-- Height dim -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none"><line x1="432" y1="70" x2="432" y2="316"/><line x1="427" y1="70" x2="437" y2="70"/><line x1="427" y1="316" x2="437" y2="316"/></g>
+        <text x="450" y="193" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A" transform="rotate(-90 450 193)">~6.6 ft</text>
+        <!-- Liner height dim -->
+        <g stroke="#3D5A3F" stroke-width="0.8" fill="none"><line x1="70" y1="226" x2="70" y2="316"/><line x1="66" y1="226" x2="74" y2="226"/><line x1="66" y1="316" x2="74" y2="316"/></g>
+        <text x="58" y="271" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#3D5A3F" transform="rotate(-90 58 271)">liner ~2.5 ft</text>
+
+        <!-- Labels -->
+        <g font-family="Crimson Pro, serif" font-size="12" font-style="italic" fill="#2A2218">
+          <text x="100" y="40">kit tarp cover (shade + rain)</text>
+          <text x="300" y="110">kit ~1" mesh (full height)</text>
+          <line x1="330" y1="106" x2="388" y2="120" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+          <text x="300" y="220">½" liner, lower ~2.5 ft</text>
+          <line x1="332" y1="224" x2="382" y2="250" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+          <text x="110" y="232" font-size="11">hutch (inside)</text>
+        </g>
+        <text x="240" y="20" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="0.16em" fill="#5A4A38">— SIDE VIEW —</text>
+      </svg>
+      <div class="diagram-caption">kit frame + 1" mesh · ½" hardware-cloth liner on the reach-in zone</div>
+    </div>
+
+    <div class="specs">
+      <div><span>Liner:</span> <strong>½" hardware cloth over the lower ~2.5–3 ft of every wall and the door (inside face), zip-tied/hog-ringed to the kit mesh every ~4"</strong></div>
+      <div><span>Why lower only:</span> <strong>that's the predator-reach + rabbit-squeeze zone; the covered top stops climbers, so the kit's 1" mesh is fine up high</strong></div>
+      <div><span>Top:</span> <strong>confirm there's wire mesh under the tarp; if it's tarp-only, add mesh across the top</strong></div>
+      <div><span>Cover:</span> <strong>the tarp gives full shade/rain but "sails" in wind — strap or weight it down</strong></div>
+    </div>
+
+    <div class="warn">
+      <b>The liner is the whole point of going this route</b> — without it you've bought a chicken run, not a rabbit run. Use the kit's own heavy zip ties plus stainless hog rings, pull every seam tight, and leave no gap a ½" rule can't pass.
+    </div>
+  </section>
+
+  <!-- PLAN 03: DIG FOOTER -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Plan 03</span></div>
+    <h2>The Dig Footer</h2>
+    <span class="use-when">Detail · the open bottom must be closed</span>
+
+    <div class="diagram">
+      <svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zoomed cross-section showing buried vertical wire and an outward horizontal apron">
+        <defs>
+          <pattern id="mesh3" x="0" y="0" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M 9 0 L 0 0 0 9" stroke="#3D5A3F" stroke-width="0.6" fill="none" opacity="0.75"/></pattern>
+          <pattern id="soil3" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="0.7" fill="#5A4530" opacity="0.55"/><circle cx="8" cy="9" r="0.6" fill="#5A4530" opacity="0.5"/><circle cx="10" cy="2" r="0.5" fill="#5A4530" opacity="0.55"/><circle cx="5" cy="10" r="0.55" fill="#5A4530" opacity="0.45"/></pattern>
+        </defs>
+        <rect x="0" y="120" width="480" height="160" fill="#8B6F47" opacity="0.15"/>
+        <rect x="0" y="120" width="480" height="160" fill="url(#soil3)"/>
+        <line x1="0" y1="120" x2="480" y2="120" stroke="#2A2218" stroke-width="1.2"/>
+        <text x="80" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="0.1em" fill="#3D5A3F">INSIDE (run)</text>
+        <text x="400" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="0.1em" fill="#A8533A">OUTSIDE</text>
+        <rect x="235" y="24" width="10" height="96" fill="url(#mesh3)" stroke="#3D5A3F" stroke-width="1.6"/>
+        <line x1="233" y1="24" x2="233" y2="120" stroke="#9a9a96" stroke-width="3"/>
+        <rect x="235" y="120" width="10" height="78" fill="url(#mesh3)" stroke="#3D5A3F" stroke-width="1.6" opacity="0.92"/>
+        <rect x="245" y="128" width="150" height="8" fill="url(#mesh3)" stroke="#3D5A3F" stroke-width="1.6" opacity="0.92"/>
+        <g stroke="#A8533A" stroke-width="1.4" fill="none" stroke-linecap="round"><path d="M 280 122 L 280 134 M 276 126 L 284 126"/><path d="M 320 122 L 320 134 M 316 126 L 324 126"/><path d="M 360 122 L 360 134 M 356 126 L 364 126"/></g>
+        <path d="M 200 120 q 14 28 30 40 q 6 5 5 -2" fill="none" stroke="#6E5A42" stroke-width="1.3" stroke-dasharray="3 3"/>
+        <text x="150" y="150" font-family="Crimson Pro, serif" font-size="11.5" font-style="italic" fill="#6E5A42">rabbit digs down,</text>
+        <text x="150" y="164" font-family="Crimson Pro, serif" font-size="11.5" font-style="italic" fill="#6E5A42">hits the wire, gives up</text>
+        <g stroke="#A8533A" stroke-width="0.8" fill="none"><line x1="262" y1="120" x2="262" y2="198"/><line x1="257" y1="120" x2="267" y2="120"/><line x1="257" y1="198" x2="267" y2="198"/></g>
+        <text x="278" y="180" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A">8–12 in deep</text>
+        <g stroke="#A8533A" stroke-width="0.8" fill="none"><line x1="245" y1="150" x2="395" y2="150"/><line x1="245" y1="145" x2="245" y2="155"/><line x1="395" y1="145" x2="395" y2="155"/></g>
+        <text x="320" y="168" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A">12–18 in apron</text>
+        <g font-family="Crimson Pro, serif" font-size="12.5" font-style="italic" fill="#2A2218">
+          <text x="250" y="92">cloth tied to the kit base rail,</text>
+          <text x="250" y="106" font-size="11">buried straight down → rabbits stay in</text>
+          <text x="300" y="206">horizontal apron</text>
+          <text x="300" y="220" font-size="11">→ stops predators digging in</text>
+          <line x1="330" y1="196" x2="330" y2="136" stroke="#2A2218" stroke-width="0.55" fill="none"/>
+        </g>
+        <text x="240" y="16" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="0.16em" fill="#5A4A38">— BURIED DETAIL —</text>
+      </svg>
+      <div class="diagram-caption">L-footer tied to the kit's base rail · digging defeated both ways</div>
+    </div>
+
+    <div class="specs">
+      <div><span>Tie-in:</span> <strong>run the footer cloth up a few inches and zip-tie it to the kit's bottom rail — no gap between footer and frame</strong></div>
+      <div><span>Bury:</span> <strong>8–12" straight down — defeats rabbits digging out</strong></div>
+      <div><span>Apron:</span> <strong>12–18" horizontal, just under the surface, extending outward — stops predators digging in</strong></div>
+      <div><span>Pin it:</span> <strong>6" landscape staples every 8–12", then re-cover with soil/sod</strong></div>
+      <div><span>No wire floor:</span> <strong>don't make them stand on mesh — keep solid ground inside (sore hocks)</strong></div>
+    </div>
+  </section>
+
+  <!-- PLAN 04: SLOPE -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Plan 04</span></div>
+    <h2>Setting the Kit on the Slope</h2>
+    <span class="use-when">Mild · 3–12 in drop · level the pad, don't shim a tilt</span>
+
+    <div class="diagram">
+      <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cross-section showing the kit set level on a scraped and filled pad across a mild slope, anchored, with the footer closing the edge">
+        <defs>
+          <pattern id="kitmesh4" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M 14 0 L 0 0 0 14" stroke="#5A4530" stroke-width="0.7" fill="none" opacity="0.5"/></pattern>
+          <pattern id="soil4" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="0.7" fill="#5A4530" opacity="0.55"/><circle cx="8" cy="9" r="0.6" fill="#5A4530" opacity="0.5"/><circle cx="10" cy="2" r="0.5" fill="#5A4530" opacity="0.55"/></pattern>
+        </defs>
+
+        <!-- Original slope (faint dashed) high left to low right -->
+        <line x1="0" y1="186" x2="480" y2="232" stroke="#5A4530" stroke-width="1" stroke-dasharray="4 4" opacity="0.5"/>
+        <text x="40" y="178" font-family="Crimson Pro, serif" font-size="10.5" font-style="italic" fill="#5A4530">original grade</text>
+
+        <!-- Leveled pad (cut high / fill low) -->
+        <rect x="60" y="208" width="360" height="20" fill="#8B6F47" opacity="0.3" stroke="#5A4530" stroke-width="1"/>
+        <polygon points="60,208 420,208 480,232 480,300 0,300 0,208" fill="#8B6F47" opacity="0.12"/>
+        <polygon points="60,208 420,208 420,300 60,300" fill="url(#soil4)"/>
+        <line x1="60" y1="208" x2="420" y2="208" stroke="#2A2218" stroke-width="1.2"/>
+        <text x="120" y="200" font-family="Crimson Pro, serif" font-size="10.5" font-style="italic" fill="#5A4530">scrape high side</text>
+        <text x="330" y="248" font-family="Crimson Pro, serif" font-size="10.5" font-style="italic" fill="#5A4530">fill low side</text>
+
+        <!-- Kit on the level pad -->
+        <line x1="96" y1="60" x2="96" y2="208" stroke="#9a9a96" stroke-width="4"/>
+        <line x1="384" y1="60" x2="384" y2="208" stroke="#9a9a96" stroke-width="4"/>
+        <path d="M 96 60 L 240 42 L 384 60" fill="none" stroke="#5A4530" stroke-width="2.5"/>
+        <rect x="92" y="66" width="7" height="142" fill="url(#kitmesh4)"/>
+        <rect x="381" y="66" width="7" height="142" fill="url(#kitmesh4)"/>
+
+        <!-- footer + anchors -->
+        <polygon points="384,208 440,214 440,220 384,214" fill="url(#kitmesh4)" stroke="#3D5A3F" stroke-width="1.3" opacity="0.95"/>
+        <polygon points="96,208 50,202 50,208 96,214" fill="url(#kitmesh4)" stroke="#3D5A3F" stroke-width="1.3" opacity="0.9"/>
+        <line x1="384" y1="200" x2="384" y2="252" stroke="#2A2218" stroke-width="2.2"/>
+        <line x1="96" y1="200" x2="96" y2="248" stroke="#2A2218" stroke-width="2.2"/>
+        <text x="300" y="270" font-family="Crimson Pro, serif" font-size="11" font-style="italic" fill="#2A2218">ground anchors at every corner</text>
+        <line x1="360" y1="264" x2="384" y2="232" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+
+        <!-- Level dim across pad -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none"><line x1="120" y1="208" x2="120" y2="60"/></g>
+        <text x="200" y="40" text-anchor="middle" font-family="Crimson Pro, serif" font-size="12" font-style="italic" fill="#2A2218">kit sits level on a leveled pad</text>
+
+        <text x="240" y="20" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="0.16em" fill="#5A4A38">— SLOPE CROSS-SECTION —</text>
+      </svg>
+      <div class="diagram-caption">level the footprint first · then the kit sits true and the footer closes the edge</div>
+    </div>
+
+    <div class="specs">
+      <div><span>Level first:</span> <strong>a rigid kit can't take deeper posts on one side — scrape the high side and fill/tamp the low side to a level pad before assembly</strong></div>
+      <div><span>Check drop:</span> <strong>string-level across the footprint; mild 3–12" is an easy cut-and-fill (more than that, reconsider the spot)</strong></div>
+      <div><span>Anchor:</span> <strong>auger/ground anchors or rebar stakes at every corner + along the base; bolt the deck side to the deck</strong></div>
+      <div><span>Edge gap:</span> <strong>any remaining gap under the frame on the low side gets closed by the footer/skirt cloth</strong></div>
+    </div>
+
+    <div class="body-text">
+      <p>With a from-scratch frame you'd level the top and let the floor tilt. A kit is the opposite — its geometry is fixed, so you level the <em>ground</em> to match the kit. A shallow cut-and-fill on a mild slope takes an hour with a shovel and a rake, and it leaves the kit sitting square with the door swinging true.</p>
+    </div>
+  </section>
+
+  <!-- PLAN 05: HUTCH INSIDE -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Plan 05</span></div>
+    <h2>Hutch Inside the Run</h2>
+    <span class="use-when">Existing hutch · high/dry end · shelter only</span>
+
+    <div class="specs">
+      <div><span>Placement:</span> <strong>fully inside the kit on the high/driest end; its own door just opens into the run</strong></div>
+      <div><span>No collar:</span> <strong>inside the lined perimeter, there's nothing to seal it to — it's pure shelter</strong></div>
+      <div><span>Base:</span> <strong>paver pad over ~2" gravel — keeps wood off damp dirt (no rot) and dig-proof; near grade at the high end</strong></div>
+      <div><span>Air gap:</span> <strong>rubber/plastic feet or a PT 2×4 skid; seal the base rails with a pet-safe exterior sealer, cured before they're back in</strong></div>
+      <div><span>Roof:</span> <strong>angle the hutch's own lid to shed away from the open run</strong></div>
+      <div><span>Open bottom:</span> <strong>if they stand on the pavers, cover with a mat/straw to prevent sore hocks</strong></div>
+    </div>
+  </section>
+
+  <!-- BILL OF MATERIALS -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Materials</span></div>
+    <h2>Bill of Materials</h2>
+    <span class="use-when">Kit + upgrades · 12 × 9 × 6.6 ft · dirt floor · deck-anchored</span>
+
+    <div class="bom-label">The kit</div>
+    <div class="specs">
+      <div><span>1 ×</span> <strong>Quictent 12 × 9 × 6.6 ft walk-in run (frame, ~1" mesh panels, PE tarp cover, door, zip ties)</strong></div>
+    </div>
+
+    <div class="bom-label">Predator-proofing upgrade</div>
+    <div class="specs">
+      <div><span>1 ×</span> <strong>100 ft × 48" ½" galvanized hardware cloth — lower-wall liner + door liner + footer</strong></div>
+      <div><span>1 pack</span> <strong>stainless hog rings (+ pliers) — pull liner-to-kit seams tight (the kit's zip ties help, but rings hold better)</strong></div>
+      <div><span>1 box</span> <strong>extra heavy 4mm zip ties — backup fastening to the kit mesh</strong></div>
+    </div>
+    <p class="note">One 100 ft roll covers the lower ~2.5–3 ft liner around the ~42 ft perimeter plus the buried footer leg and apron, with room for the door.</p>
+
+    <div class="bom-label">Base, footer &amp; anchoring</div>
+    <div class="specs">
+      <div><span>50 pk</span> <strong>6" landscape staples — pin the footer apron + any low-side skirt</strong></div>
+      <div><span>4–8 ×</span> <strong>auger ground anchors or 18" rebar stakes — anchor the corners + base</strong></div>
+      <div><span>4 ×</span> <strong>⅜" × 4" lag screws + washers — bolt the deck-side frame to the deck posts</strong></div>
+      <div><span>2–4 ×</span> <strong>sandbags or weights — hold the tarp against wind ("sail effect")</strong></div>
+      <div><span>~3 cu ft</span> <strong>gravel — downhill-edge drainage + the hutch pad bed</strong></div>
+    </div>
+
+    <div class="bom-label">Hutch base (inside, high end)</div>
+    <div class="specs">
+      <div><span>4–6 ×</span> <strong>concrete pavers (or large stepping stones) — raised pad under the hutch</strong></div>
+      <div><span>1 ×</span> <strong>pet-safe exterior wood sealer — hutch base rails &amp; feet</strong></div>
+      <div><span>4 ×</span> <strong>rubber/plastic feet (or 1 PT 2×4×8 for skids) — air gap under the hutch</strong></div>
+    </div>
+
+    <div class="bom-label">Tools</div>
+    <div class="specs">
+      <div><span>—</span> <strong>aviation snips/cloth cutters, heavy gloves, drill/driver, socket or wrench, level, string, trenching shovel, rake, hammer/mallet, safety glasses</strong></div>
+    </div>
+
+    <p class="note">Budget = the kit's price + roughly $100–150 in upgrade materials (hardware cloth, anchors, pavers). The ½" cloth is the main add. Prices move and vary by region — treat it as a ballpark, not a quote.</p>
+  </section>
+
+  <!-- BUILD SEQUENCE -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Build</span></div>
+    <h2>Step-by-Step</h2>
+    <span class="use-when">Order of operations · read it all before starting</span>
+
+    <div class="warn">
+      <b>Before you start</b> — wear heavy gloves the whole time; cut ½" hardware cloth slices skin. Level the ground before the kit goes up, and keep a ½" reference (a finger, a rule) handy to test every gap as you close it.
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">01</span>Site prep &amp; level the pad</div>
+      <ol class="steps">
+        <li>Clear the footprint plus ~2 ft around it; fully remove the toxic lilies and keep the rose bush out of the zone.</li>
+        <li>String-level across the footprint to read the drop (high end by the deck, low end downhill). Confirm it's a mild 3–12".</li>
+        <li>Scrape the high side down and fill/tamp the low side until you have a level pad — a kit can't take a tilt, so level the ground to it.</li>
+        <li>Mark where the kit sits, hutch end toward the deck/high side.</li>
+      </ol>
+      <div class="diagram">
+        <svg viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cut-and-fill: scrape the high side, fill the low side, to make a level pad">
+          <defs><pattern id="soilL" x="0" y="0" width="11" height="11" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="0.6" fill="#5A4530" opacity="0.5"/><circle cx="8" cy="8" r="0.55" fill="#5A4530" opacity="0.45"/></pattern></defs>
+          <line x1="20" y1="70" x2="400" y2="120" stroke="#5A4530" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+          <text x="40" y="62" font-family="Crimson Pro, serif" font-size="11" font-style="italic" fill="#5A4530">original grade</text>
+          <rect x="60" y="92" width="300" height="10" fill="#8B6F47" opacity="0.35" stroke="#5A4530" stroke-width="1"/>
+          <polygon points="60,92 360,92 360,160 60,160" fill="url(#soilL)" opacity="0.5"/>
+          <line x1="60" y1="92" x2="360" y2="92" stroke="#2A2218" stroke-width="1.2"/>
+          <path d="M 70 80 q 20 -10 40 -2" fill="none" stroke="#A8533A" stroke-width="1.2"/>
+          <text x="90" y="76" font-family="Crimson Pro, serif" font-size="11" font-style="italic" fill="#A8533A">scrape</text>
+          <path d="M 300 112 q 20 8 40 -2" fill="none" stroke="#A8533A" stroke-width="1.2"/>
+          <text x="312" y="128" font-family="Crimson Pro, serif" font-size="11" font-style="italic" fill="#A8533A">fill + tamp</text>
+          <text x="210" y="86" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#3D5A3F">LEVEL PAD</text>
+        </svg>
+        <div class="diagram-caption">cut the high side, fill the low side → level pad</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">02</span>Assemble the kit</div>
+      <ol class="steps">
+        <li>Build the frame per the kit manual — the push-button poles go together tool-free.</li>
+        <li>Attach the mesh panels and the tarp cover with the kit's zip ties; tension everything so panels don't sag.</li>
+        <li>Hang and test the door; confirm the latch seats and the frame sits square on your level pad.</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">03</span>Anchor it down</div>
+      <ol class="steps">
+        <li>Drive an auger anchor or rebar stake at every corner and a few along the base rails; tie the frame to them.</li>
+        <li>Bolt the deck-side frame to the deck posts with the ⅜" × 4" lag screws.</li>
+        <li>Strap or weight the tarp tight — these covers catch wind and lift, so secure the edges and add sandbags if exposed.</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">04</span>Dig &amp; install the footer</div>
+      <ol class="steps">
+        <li>Dig a perimeter trench ~8–12" deep tight against the kit's base rail, with an outward shelf ~12–18" wide a few inches down.</li>
+        <li>Run ½" hardware cloth up a few inches and zip-tie/hog-ring it to the base rail, drop it down the trench (buried leg), then bend it outward along the shelf as the apron.</li>
+        <li>Pin the apron flat with 6" landscape staples every 8–12".</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">05</span>Line the lower walls + door</div>
+      <ol class="steps">
+        <li>Cut ½" hardware cloth into ~2.5–3 ft tall bands and run them along the inside of every wall, overlapping the footer tie-in at the bottom.</li>
+        <li>Fasten to the kit mesh every ~4" with hog rings (and the heavy zip ties as backup); pull seams tight.</li>
+        <li>Line the door the same way so the closed door has no gap or 1" opening either.</li>
+        <li>Fold or cap every cut edge so nothing sharp sits at rabbit height.</li>
+      </ol>
+      <div class="diagram">
+        <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Half-inch liner zip-tied over the kit's one-inch mesh on the lower wall">
+          <defs>
+            <pattern id="kitmeshD" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" stroke="#5A4530" stroke-width="0.8" fill="none" opacity="0.5"/></pattern>
+            <pattern id="linerD" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M 8 0 L 0 0 0 8" stroke="#3D5A3F" stroke-width="0.6" fill="none" opacity="0.8"/></pattern>
+          </defs>
+          <rect x="40" y="20" width="150" height="160" fill="url(#kitmeshD)" stroke="#5A4530" stroke-width="1.2"/>
+          <text x="115" y="14" text-anchor="middle" font-family="Crimson Pro, serif" font-size="11" font-style="italic" fill="#5A4530">kit ~1" mesh</text>
+          <rect x="230" y="20" width="150" height="160" fill="url(#linerD)" stroke="#3D5A3F" stroke-width="1.4"/>
+          <rect x="230" y="20" width="150" height="160" fill="url(#kitmeshD)" opacity="0.5"/>
+          <text x="305" y="14" text-anchor="middle" font-family="Crimson Pro, serif" font-size="11" font-style="italic" fill="#3D5A3F">+ ½" liner on top</text>
+          <g fill="#A8533A"><circle cx="232" cy="50" r="2.6"/><circle cx="232" cy="100" r="2.6"/><circle cx="232" cy="150" r="2.6"/><circle cx="378" cy="50" r="2.6"/><circle cx="378" cy="100" r="2.6"/><circle cx="378" cy="150" r="2.6"/><circle cx="305" cy="35" r="2.6"/><circle cx="305" cy="165" r="2.6"/></g>
+          <path d="M 195 100 l 28 0 M 216 94 l 7 6 l -7 6" fill="none" stroke="#A8533A" stroke-width="1.4"/>
+          <text x="305" y="196" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#A8533A">hog-ring / zip-tie every ~4"</text>
+        </svg>
+        <div class="diagram-caption">½" cloth laid over the kit mesh, fastened every ~4"</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">06</span>Close any low-side gap</div>
+      <ol class="steps">
+        <li>If the leveled pad still leaves a gap under the frame on the low side, cut a short skirt strip of ½" cloth.</li>
+        <li>Lap it over the base rail and lower liner, carry it to the ground, and bend the bottom outward as footer; pin it.</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">07</span>Verify the top</div>
+      <ol class="steps">
+        <li>Confirm there's wire mesh under the tarp. If the top is tarp-only, add a layer of ½" or 1" mesh across it and tie it to the frame.</li>
+        <li>Re-check the tarp is strapped/weighted so wind can't peel it back.</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">08</span>Hutch pad &amp; placement</div>
+      <ol class="steps">
+        <li>On the high/dry end, level a ~2" gravel bed and set 4–6 pavers flat and level, a touch proud of grade.</li>
+        <li>Seal the hutch's base rails and feet; let it fully cure and off-gas.</li>
+        <li>Set the hutch on rubber feet or a PT 2×4 skid on the pavers; angle its lid to shed away from the open run.</li>
+        <li>If it's open-bottom and they'll stand on the pavers, lay a mat or straw against sore hocks.</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">09</span>Final safety check &amp; move-in</div>
+      <ol class="steps">
+        <li>Walk the whole perimeter inside and out, pressing every panel and seam — anything that flexes open or shows a gap &gt; ½" gets another ring or staple.</li>
+        <li>Test the latch the way a raccoon would: paw-poke, nose, and lift.</li>
+        <li>Confirm no sharp cut-mesh ends at rabbit height; fold or cap any you find.</li>
+        <li>Add hides, tunnel, water, and the litter trays in their corners, then let the rabbits in and watch them through the first day.</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="warn" style="margin-top:40px;">
+    <b>Heat is the silent killer in NC</b> — rabbits handle cold far better than heat and can suffer fatal heat stroke above ~80–85°F. The kit's tarp gives full shade over the whole run, which helps a lot; still site it where the deck adds afternoon shade, and in summer add a frozen water bottle or a ceramic tile. Shade and fresh water matter as much as the mesh.
+  </div>
+
+  <footer>
+    Field Bulletin <span class="mark">·</span> Youngsville NC <span class="mark">·</span> Kit frame · ½" liner · buried footer · hutch inside
+  </footer>
+
+</div>
+</body>
+</html>
