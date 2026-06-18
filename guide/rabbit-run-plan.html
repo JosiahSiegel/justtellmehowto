@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walk-In Rabbit Run — Layout, Build & Materials</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--parchment:#F0E8D4;--parchment-deep:#E5DBC0;--ink:#2A2218;--ink-soft:#5A4A38;--green:#3D5A3F;--green-deep:#2A4030;--rust:#A8533A;--soil:#8B6F47;--soil-deep:#5A4530;--fur:#6E5A42;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--parchment);color:var(--ink);font-family:'Crimson Pro',Georgia,serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+body{background-image:radial-gradient(ellipse at top,rgba(168,83,58,0.06),transparent 60%),radial-gradient(ellipse at bottom right,rgba(61,90,63,0.07),transparent 60%);min-height:100vh;padding:28px 18px 60px;position:relative;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.15 0 0 0 0 0.1 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:0.55;z-index:0;}
+.wrap{max-width:720px;margin:0 auto;position:relative;z-index:1;}
+header{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:22px;margin-bottom:12px;position:relative;}
+header::after{content:'';display:block;width:100%;border-bottom:1px solid var(--ink);position:absolute;bottom:-5px;left:0;}
+.bulletin{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--rust);margin-bottom:14px;}
+h1{font-family:'IM Fell English SC',serif;font-size:clamp(26px,6vw,34px);font-weight:400;line-height:1.08;letter-spacing:0.015em;}
+.sub{font-style:italic;color:var(--ink-soft);margin-top:12px;font-size:14px;}
+.lead{font-style:italic;color:var(--ink-soft);text-align:center;margin:26px auto 10px;max-width:540px;font-size:15px;}
+.method{margin-top:44px;padding-top:28px;border-top:1px solid rgba(42,34,24,0.28);}
+.method:first-of-type{border-top:none;padding-top:8px;}
+.method-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px;}
+.method-num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.22em;color:var(--rust);text-transform:uppercase;}
+h2{font-family:'IM Fell English SC',serif;font-size:clamp(22px,5vw,26px);font-weight:400;line-height:1.12;}
+.use-when{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:3px 9px;border:1px solid var(--green);color:var(--green);margin-top:8px;}
+.diagram{background:var(--parchment-deep);border:1px solid rgba(42,34,24,0.32);padding:14px 10px 10px;margin:18px 0;box-shadow:1px 2px 0 rgba(42,34,24,0.08);}
+.diagram svg{display:block;width:100%;height:auto;}
+.diagram-caption{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-soft);text-align:center;margin-top:6px;}
+.specs{margin:16px 0 4px;padding:10px 14px;background:rgba(61,90,63,0.07);border-left:3px solid var(--green);font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;}
+.specs span{color:var(--ink-soft);display:inline-block;min-width:96px;}
+.specs strong{color:var(--ink);font-weight:500;}
+.body-text{margin-top:14px;}
+.body-text p{margin-bottom:10px;}
+.warn{margin:16px 0 4px;padding:10px 14px;background:rgba(168,83,58,0.09);border-left:3px solid var(--rust);font-size:14.5px;}
+.warn b{font-variant:small-caps;letter-spacing:0.03em;color:var(--rust);}
+.bom-label{font-family:'IM Fell English SC',serif;font-size:17px;margin:22px 0 2px;letter-spacing:0.02em;color:var(--green-deep);}
+.bom-label:first-of-type{margin-top:10px;}
+.note{font-style:italic;color:var(--ink-soft);font-size:13.5px;margin-top:6px;}
+.phase{margin-top:20px;}
+.phase-label{font-family:'IM Fell English SC',serif;font-size:17px;margin:0 0 6px;letter-spacing:0.02em;color:var(--green-deep);}
+.phase-label .pn{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--rust);margin-right:9px;letter-spacing:0.12em;}
+.steps{margin:0 0 4px 0;padding-left:24px;}
+.steps li{margin-bottom:7px;padding-left:4px;}
+.steps li::marker{color:var(--rust);font-family:'JetBrains Mono',monospace;font-size:12px;}
+.tip{font-style:italic;color:var(--ink-soft);font-size:13.5px;margin:5px 0 0;padding-left:4px;}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid rgba(42,34,24,0.3);text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-soft);}
+footer .mark{display:inline-block;margin:0 8px;color:var(--rust);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="bulletin">Field Bulletin № 04 · Oryctolagus Containment</div>
+    <h1>A Walk-In Predator-Proof Run<br>for Two Free-Roaming Bunnies</h1>
+    <div class="sub">8 × 8 ft · ~6½ ft walk-in · ½" hardware cloth · covered top · buried footer · hutch inside · deck-attached, slope-ready</div>
+  </header>
+
+  <p class="lead">A walk-in run keeps rabbits from digging out, keeps predators from getting in, keeps the heat off — and lets you step inside to clean and visit. The hutch lives inside the fence, so the run's perimeter is the only barrier that has to be predator-tight.</p>
+
+  <!-- PLAN 01: LAYOUT -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Plan 01</span></div>
+    <h2>The Layout</h2>
+    <span class="use-when">Top-down · 8 × 8 ft = 64 sq ft · hutch inside</span>
+
+    <div class="diagram">
+      <svg viewBox="0 0 480 392" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down plan of an 8 by 8 foot walk-in rabbit run with the hutch inside on the high end, a walk-in door at the front, deck on the high side">
+        <defs>
+          <pattern id="grass1" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+            <path d="M3 14 q1 -5 0 -8 M8 14 q-1 -4 1 -7 M13 14 q1 -5 -1 -7" stroke="#3D5A3F" stroke-width="0.7" fill="none" opacity="0.5"/>
+          </pattern>
+          <pattern id="shadehatch" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="8" stroke="#5A4530" stroke-width="1" opacity="0.5"/>
+          </pattern>
+        </defs>
+
+        <!-- Dig apron -->
+        <rect x="60" y="48" width="336" height="326" rx="6" fill="none" stroke="#A8533A" stroke-width="1" stroke-dasharray="5 4"/>
+
+        <!-- Run (grass) -->
+        <rect x="78" y="66" width="300" height="290" rx="4" fill="#3D5A3F" opacity="0.10"/>
+        <rect x="78" y="66" width="300" height="290" rx="4" fill="url(#grass1)"/>
+        <rect x="78" y="66" width="300" height="290" rx="4" fill="none" stroke="#3D5A3F" stroke-width="2"/>
+
+        <!-- Deck (high side) -->
+        <rect x="28" y="60" width="24" height="302" fill="#8B6F47" opacity="0.4" stroke="#5A4530" stroke-width="1.4"/>
+        <line x1="28" y1="120" x2="52" y2="120" stroke="#5A4530" stroke-width="0.8" opacity="0.6"/>
+        <line x1="28" y1="180" x2="52" y2="180" stroke="#5A4530" stroke-width="0.8" opacity="0.6"/>
+        <line x1="28" y1="240" x2="52" y2="240" stroke="#5A4530" stroke-width="0.8" opacity="0.6"/>
+        <line x1="28" y1="300" x2="52" y2="300" stroke="#5A4530" stroke-width="0.8" opacity="0.6"/>
+        <g stroke="#A8533A" stroke-width="1.3"><line x1="52" y1="150" x2="78" y2="150"/><line x1="52" y1="272" x2="78" y2="272"/></g>
+
+        <!-- Shade panel over the open/sunny (right) end; the deck shades the hutch end -->
+        <rect x="246" y="66" width="132" height="290" fill="url(#shadehatch)" opacity="0.55"/>
+        <rect x="246" y="66" width="132" height="290" fill="none" stroke="#5A4530" stroke-width="1.1" stroke-dasharray="2 2"/>
+
+        <!-- Hutch INSIDE on the HIGH (left) end, shaded by the deck, on a paver pad -->
+        <rect x="84" y="150" width="80" height="150" rx="2" fill="none" stroke="#5A4530" stroke-width="1" stroke-dasharray="3 2"/>
+        <rect x="92" y="158" width="66" height="134" rx="3" fill="#8B6F47" opacity="0.5" stroke="#5A4530" stroke-width="2"/>
+        <rect x="120" y="166" width="30" height="40" rx="2" fill="#5A4530" opacity="0.35"/>
+        <!-- hutch's own opening into the run (no collar needed — it's inside) -->
+        <rect x="158" y="216" width="6" height="26" fill="#F0E8D4"/>
+
+        <!-- Walk-in door (~30in) on the front (bottom) wall, center -->
+        <rect x="210" y="353" width="92" height="6" fill="#F0E8D4"/>
+        <line x1="210" y1="356" x2="302" y2="356" stroke="#A8533A" stroke-width="1.4"/>
+        <path d="M 302 356 Q 290 320 250 326" fill="none" stroke="#A8533A" stroke-width="0.8" stroke-dasharray="3 2"/>
+        <circle cx="302" cy="356" r="2.4" fill="#A8533A"/>
+
+        <!-- Hide + tunnel (open run, center) -->
+        <rect x="196" y="300" width="46" height="34" rx="3" fill="#8B6F47" opacity="0.5" stroke="#5A4530" stroke-width="1.4"/>
+        <path d="M 210 250 q 30 -14 60 0" fill="none" stroke="#5A4530" stroke-width="9" stroke-linecap="round" opacity="0.45"/>
+
+        <!-- Water -->
+        <circle cx="250" cy="170" r="9" fill="none" stroke="#3D5A3F" stroke-width="1.6"/>
+        <circle cx="250" cy="170" r="3" fill="#3D5A3F" opacity="0.5"/>
+
+        <!-- Rabbits (open run) -->
+        <g fill="#6E5A42" opacity="0.9">
+          <g transform="translate(230,120)">
+            <ellipse cx="0" cy="0" rx="10" ry="14"/><ellipse cx="-3" cy="-15" rx="2" ry="6"/><ellipse cx="3" cy="-15" rx="2" ry="6"/>
+          </g>
+          <g transform="translate(312,300) rotate(25)">
+            <ellipse cx="0" cy="0" rx="10" ry="14"/><ellipse cx="-3" cy="-15" rx="2" ry="6"/><ellipse cx="3" cy="-15" rx="2" ry="6"/>
+          </g>
+        </g>
+
+        <!-- Width dim -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none">
+          <line x1="78" y1="372" x2="378" y2="372"/><line x1="78" y1="367" x2="78" y2="377"/><line x1="378" y1="367" x2="378" y2="377"/>
+        </g>
+        <text x="228" y="388" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A">~8 ft</text>
+        <!-- Height dim -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none">
+          <line x1="416" y1="66" x2="416" y2="356"/><line x1="411" y1="66" x2="421" y2="66"/><line x1="411" y1="356" x2="421" y2="356"/>
+        </g>
+        <text x="434" y="214" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A" transform="rotate(-90 434 214)">~8 ft</text>
+
+        <!-- Gravel on low edge -->
+        <g fill="#5A4530" opacity="0.5">
+          <circle cx="386" cy="120" r="2.2"/><circle cx="391" cy="150" r="2.5"/><circle cx="386" cy="182" r="2.2"/>
+          <circle cx="391" cy="214" r="2.4"/><circle cx="386" cy="248" r="2.3"/><circle cx="390" cy="286" r="2.5"/>
+        </g>
+        <path d="M 350 382 l 34 0 M 379 377 l 6 5 l -6 5" fill="none" stroke="#A8533A" stroke-width="1.3"/>
+
+        <!-- Labels -->
+        <g font-family="Crimson Pro, serif" font-size="12.5" font-style="italic" fill="#2A2218">
+          <text x="92" y="146">hutch (inside · high end)</text>
+          <text x="90" y="320" font-size="11">paver pad</text>
+          <text x="252" y="84" fill="#5A4530">shade panel (over sunny end)</text>
+          <text x="256" y="348" text-anchor="middle" font-size="11">walk-in door</text>
+          <text x="198" y="296" font-size="11">hide</text>
+          <text x="214" y="244" font-size="11">tunnel</text>
+          <text x="262" y="174" font-size="11">water</text>
+          <text x="20" y="210" text-anchor="middle" transform="rotate(-90 20 210)" font-size="11" fill="#5A4530">DECK · shades + anchors</text>
+          <text x="383" y="104" font-size="10" fill="#5A4530">gravel</text>
+          <text x="350" y="375" font-size="10.5" fill="#A8533A">downhill</text>
+        </g>
+
+        <text x="228" y="18" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="0.16em" fill="#5A4A38">— PLAN VIEW —</text>
+      </svg>
+      <div class="diagram-caption">deck shades + anchors the high end (left) where the hutch sits; shade panel over the open sunny end (right); walk-in door at the front</div>
+    </div>
+
+    <div class="specs">
+      <div><span>Footprint:</span> <strong>8 × 8 ft, ~6½ ft tall — roomy walk-in for two rabbits</strong></div>
+      <div><span>Hutch:</span> <strong>sits fully inside the run on the high/driest end; it's shelter only — the run perimeter is the predator barrier, so no collar or mesh-lining needed</strong></div>
+      <div><span>Hutch base:</span> <strong>paver pad over gravel — keeps wood off damp dirt (no rot) and dig-proof; near grade at the high end, so no wedge to fill here</strong></div>
+      <div><span>Access:</span> <strong>a framed walk-in door (~30" × 6 ft) on the front wall with a raccoon-proof latch</strong></div>
+      <div><span>Shade:</span> <strong>the deck shades the high/hutch end; the fixed panel covers the open sunny end — full coverage</strong></div>
+      <div><span>Inside:</span> <strong>2+ hides, a tunnel, water out in the open run</strong></div>
+      <div><span>Site:</span> <strong>clear the weeds + toxic lilies first; keep clear of the utility door swing, dryer vent, and downspout runoff</strong></div>
+    </div>
+  </section>
+
+  <!-- PLAN 02: WALLS, ROOF & DOOR -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Plan 02</span></div>
+    <h2>Walls, Covered Top &amp; Door</h2>
+    <span class="use-when">Cross-section · tall enough to stand inside</span>
+
+    <div class="diagram">
+      <svg viewBox="0 0 480 372" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cross-section of a walk-in run about six and a half feet tall, full mesh roof with a shade panel on top, a walk-in door, the hutch inside, and a person shown for scale">
+        <defs>
+          <pattern id="mesh2" x="0" y="0" width="9" height="9" patternUnits="userSpaceOnUse">
+            <path d="M 9 0 L 0 0 0 9" stroke="#3D5A3F" stroke-width="0.55" fill="none" opacity="0.6"/>
+          </pattern>
+          <pattern id="soil2" x="0" y="0" width="13" height="13" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="3" r="0.7" fill="#5A4530" opacity="0.55"/><circle cx="8" cy="9" r="0.55" fill="#5A4530" opacity="0.45"/><circle cx="11" cy="2" r="0.45" fill="#5A4530" opacity="0.55"/>
+          </pattern>
+        </defs>
+
+        <!-- Ground -->
+        <rect x="0" y="322" width="480" height="50" fill="#8B6F47" opacity="0.13"/>
+        <rect x="0" y="322" width="480" height="50" fill="url(#soil2)"/>
+        <line x1="0" y1="322" x2="480" y2="322" stroke="#2A2218" stroke-width="1.2"/>
+
+        <!-- Full mesh roof -->
+        <rect x="86" y="60" width="302" height="8" fill="url(#mesh2)" stroke="#3D5A3F" stroke-width="1.5"/>
+        <!-- Shade panel on top of the sunny-end portion -->
+        <rect x="240" y="52" width="148" height="8" fill="#5A4530" opacity="0.55"/>
+        <line x1="240" y1="52" x2="388" y2="52" stroke="#5A4530" stroke-width="2.5"/>
+
+        <!-- Walls (mesh) -->
+        <rect x="86" y="68" width="9" height="254" fill="url(#mesh2)" stroke="#3D5A3F" stroke-width="1.5"/>
+        <rect x="379" y="68" width="9" height="254" fill="url(#mesh2)" stroke="#3D5A3F" stroke-width="1.5"/>
+        <!-- Posts + concrete footings -->
+        <line x1="90" y1="60" x2="90" y2="348" stroke="#5A4530" stroke-width="3.5"/>
+        <line x1="384" y1="60" x2="384" y2="348" stroke="#5A4530" stroke-width="3.5"/>
+        <ellipse cx="90" cy="344" rx="11" ry="7" fill="#9a9a96" opacity="0.7"/>
+        <ellipse cx="384" cy="344" rx="11" ry="7" fill="#9a9a96" opacity="0.7"/>
+
+        <!-- Walk-in door (~30in x ~6ft) in the end wall -->
+        <rect x="372" y="100" width="16" height="222" fill="#E5DBC0" stroke="#5A4530" stroke-width="1.6"/>
+        <rect x="374" y="104" width="12" height="214" fill="url(#mesh2)"/>
+        <g fill="#A8533A"><rect x="386" y="114" width="6" height="10" rx="1"/><rect x="386" y="300" width="6" height="10" rx="1"/></g>
+        <circle cx="374" cy="210" r="2.4" fill="#A8533A"/>
+        <path d="M 372 140 Q 340 140 340 250" fill="none" stroke="#A8533A" stroke-width="0.8" stroke-dasharray="3 2"/>
+
+        <!-- Person for scale -->
+        <g fill="#5A4A38" opacity="0.32">
+          <circle cx="285" cy="130" r="15"/>
+          <path d="M268 148 q17 -9 34 0 l 9 96 q-26 12 -52 0 z"/>
+          <rect x="276" y="244" width="12" height="74" rx="3"/>
+          <rect x="292" y="244" width="12" height="74" rx="3"/>
+        </g>
+
+        <!-- Hutch INSIDE at the base, high/deck end (left) -->
+        <rect x="100" y="248" width="92" height="74" rx="3" fill="#8B6F47" opacity="0.5" stroke="#5A4530" stroke-width="2"/>
+        <path d="M 98 248 L 146 232 L 194 248 Z" fill="#5A4530" opacity="0.4"/>
+        <rect x="112" y="270" width="22" height="52" fill="#5A4530" opacity="0.3"/>
+
+        <!-- Rabbit by the hutch -->
+        <g fill="#6E5A42">
+          <ellipse cx="208" cy="306" rx="16" ry="12"/><circle cx="222" cy="296" r="8"/>
+          <ellipse cx="219" cy="280" rx="2.6" ry="10" transform="rotate(-10 219 280)"/><ellipse cx="225" cy="280" rx="2.6" ry="10" transform="rotate(9 225 280)"/>
+        </g>
+
+        <!-- Footer stubs -->
+        <path d="M 96 322 L 96 342 M 96 334 L 70 334" stroke="#3D5A3F" stroke-width="2" fill="none" opacity="0.8"/>
+        <path d="M 384 322 L 384 342 M 384 334 L 410 334" stroke="#3D5A3F" stroke-width="2" fill="none" opacity="0.8"/>
+
+        <!-- Height dim -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none">
+          <line x1="430" y1="60" x2="430" y2="322"/><line x1="425" y1="60" x2="435" y2="60"/><line x1="425" y1="322" x2="435" y2="322"/>
+        </g>
+        <text x="448" y="196" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A" transform="rotate(-90 448 196)">~6½ ft</text>
+
+        <!-- Labels -->
+        <g font-family="Crimson Pro, serif" font-size="12" font-style="italic" fill="#2A2218">
+          <text x="240" y="46">shade panel (sunny end)</text>
+          <line x1="290" y1="50" x2="310" y2="54" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+          <text x="120" y="92">full mesh roof</text>
+          <text x="300" y="206" text-anchor="middle">you can stand inside</text>
+          <text x="96" y="228" font-size="11">hutch (inside)</text>
+          <text x="392" y="112" font-size="11">walk-in door</text>
+        </g>
+
+        <text x="240" y="20" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="0.16em" fill="#5A4A38">— SIDE VIEW —</text>
+      </svg>
+      <div class="diagram-caption">walk-in height · full mesh roof + shade panel on top · door in one wall</div>
+    </div>
+
+    <div class="specs">
+      <div><span>Height:</span> <strong>~6½ ft clear inside (posts ~8 ft, set ~1½ ft in the ground)</strong></div>
+      <div><span>Mesh:</span> <strong>½" galvanized hardware cloth — NOT chicken wire (see note)</strong></div>
+      <div><span>Roof:</span> <strong>fully meshed top with the shade panel laid on top of part — no climber gap</strong></div>
+      <div><span>Door:</span> <strong>a framed ~30" × 6 ft door, mesh-skinned, 3 hinges + a raccoon-proof two-step latch</strong></div>
+      <div><span>Frame:</span> <strong>4×4 corner posts; 2×4 plates, mid-rails, studs; 2×4 roof joists</strong></div>
+    </div>
+
+    <div class="warn">
+      <b>Why not chicken wire</b> — its 1" hexagons let raccoons reach through and tear under a fox. ½" hardware cloth is the only mesh that holds. To save cost on a tall wall you may run ½" hardware cloth on the bottom ~4 ft (the reach-in zone) and 1" welded wire above, but the roof and that lower band must be hardware cloth, and the whole top must be covered — that's what stops hawks, owls, raccoons, and cats.
+    </div>
+  </section>
+
+  <!-- PLAN 03: DIG FOOTER -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Plan 03</span></div>
+    <h2>The Dig Footer</h2>
+    <span class="use-when">Detail · the single most-skipped step</span>
+
+    <div class="diagram">
+      <svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zoomed cross-section showing buried vertical wire and an outward horizontal apron">
+        <defs>
+          <pattern id="mesh3" x="0" y="0" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M 9 0 L 0 0 0 9" stroke="#3D5A3F" stroke-width="0.6" fill="none" opacity="0.75"/></pattern>
+          <pattern id="soil3" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="0.7" fill="#5A4530" opacity="0.55"/><circle cx="8" cy="9" r="0.6" fill="#5A4530" opacity="0.5"/><circle cx="10" cy="2" r="0.5" fill="#5A4530" opacity="0.55"/><circle cx="5" cy="10" r="0.55" fill="#5A4530" opacity="0.45"/></pattern>
+        </defs>
+        <rect x="0" y="120" width="480" height="160" fill="#8B6F47" opacity="0.15"/>
+        <rect x="0" y="120" width="480" height="160" fill="url(#soil3)"/>
+        <line x1="0" y1="120" x2="480" y2="120" stroke="#2A2218" stroke-width="1.2"/>
+        <text x="80" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="0.1em" fill="#3D5A3F">INSIDE (run)</text>
+        <text x="400" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="0.1em" fill="#A8533A">OUTSIDE</text>
+        <rect x="235" y="24" width="10" height="96" fill="url(#mesh3)" stroke="#3D5A3F" stroke-width="1.6"/>
+        <line x1="233" y1="24" x2="233" y2="120" stroke="#5A4530" stroke-width="2.5"/>
+        <rect x="235" y="120" width="10" height="78" fill="url(#mesh3)" stroke="#3D5A3F" stroke-width="1.6" opacity="0.92"/>
+        <rect x="245" y="128" width="150" height="8" fill="url(#mesh3)" stroke="#3D5A3F" stroke-width="1.6" opacity="0.92"/>
+        <g stroke="#A8533A" stroke-width="1.4" fill="none" stroke-linecap="round">
+          <path d="M 280 122 L 280 134 M 276 126 L 284 126"/><path d="M 320 122 L 320 134 M 316 126 L 324 126"/><path d="M 360 122 L 360 134 M 356 126 L 364 126"/>
+        </g>
+        <path d="M 200 120 q 14 28 30 40 q 6 5 5 -2" fill="none" stroke="#6E5A42" stroke-width="1.3" stroke-dasharray="3 3"/>
+        <text x="150" y="150" font-family="Crimson Pro, serif" font-size="11.5" font-style="italic" fill="#6E5A42">rabbit digs down,</text>
+        <text x="150" y="164" font-family="Crimson Pro, serif" font-size="11.5" font-style="italic" fill="#6E5A42">hits the wire, gives up</text>
+        <g stroke="#A8533A" stroke-width="0.8" fill="none"><line x1="262" y1="120" x2="262" y2="198"/><line x1="257" y1="120" x2="267" y2="120"/><line x1="257" y1="198" x2="267" y2="198"/></g>
+        <text x="278" y="180" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A">8–12 in deep</text>
+        <g stroke="#A8533A" stroke-width="0.8" fill="none"><line x1="245" y1="150" x2="395" y2="150"/><line x1="245" y1="145" x2="245" y2="155"/><line x1="395" y1="145" x2="395" y2="155"/></g>
+        <text x="320" y="168" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#A8533A">12–18 in apron</text>
+        <g font-family="Crimson Pro, serif" font-size="12.5" font-style="italic" fill="#2A2218">
+          <text x="250" y="92">wall buried straight down</text>
+          <text x="250" y="106" font-size="11">→ stops rabbits tunneling out</text>
+          <text x="300" y="206">horizontal apron</text>
+          <text x="300" y="220" font-size="11">→ stops predators digging in</text>
+          <line x1="330" y1="196" x2="330" y2="136" stroke="#2A2218" stroke-width="0.55" fill="none"/>
+        </g>
+        <text x="240" y="16" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="0.16em" fill="#5A4A38">— BURIED DETAIL —</text>
+      </svg>
+      <div class="diagram-caption">L-footer · belt-and-suspenders against digging both ways</div>
+    </div>
+
+    <div class="specs">
+      <div><span>Bury wall:</span> <strong>8–12" straight down — defeats rabbits digging out</strong></div>
+      <div><span>Apron:</span> <strong>12–18" horizontal, just under the surface, extending outward</strong></div>
+      <div><span>Pin it:</span> <strong>landscape staples every 8–12", then re-cover with soil/sod</strong></div>
+      <div><span>No wire floor:</span> <strong>standing on mesh causes sore hocks — keep solid ground inside</strong></div>
+    </div>
+  </section>
+
+  <!-- PLAN 04: SLOPE -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Plan 04</span></div>
+    <h2>Building on the Slope</h2>
+    <span class="use-when">Mild · 3–12 in drop · hutch on the high end</span>
+
+    <div class="diagram">
+      <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cross-section across a mild slope showing a level walk-in top frame, the hutch on the high end on a paver pad near grade, the downhill wedge closed by a skirt at the far low end, and posts set in the ground">
+        <defs>
+          <pattern id="mesh4" x="0" y="0" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M 9 0 L 0 0 0 9" stroke="#3D5A3F" stroke-width="0.55" fill="none" opacity="0.6"/></pattern>
+          <pattern id="soil4" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="0.7" fill="#5A4530" opacity="0.55"/><circle cx="8" cy="9" r="0.6" fill="#5A4530" opacity="0.5"/><circle cx="10" cy="2" r="0.5" fill="#5A4530" opacity="0.55"/><circle cx="5" cy="10" r="0.55" fill="#5A4530" opacity="0.45"/></pattern>
+          <pattern id="wedgehatch" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="#A8533A" stroke-width="0.9" opacity="0.45"/></pattern>
+        </defs>
+
+        <!-- Sloped soil: high left, low right -->
+        <polygon points="0,196 480,244 480,320 0,320" fill="#8B6F47" opacity="0.15"/>
+        <polygon points="0,196 480,244 480,320 0,320" fill="url(#soil4)"/>
+        <line x1="0" y1="196" x2="480" y2="244" stroke="#2A2218" stroke-width="1.2"/>
+
+        <!-- Level top frame -->
+        <rect x="96" y="54" width="288" height="8" fill="#5A4530" opacity="0.55"/>
+        <line x1="96" y1="54" x2="384" y2="54" stroke="#5A4530" stroke-width="2.5"/>
+        <!-- level mesh roof hint -->
+        <rect x="96" y="62" width="288" height="6" fill="url(#mesh4)"/>
+        <!-- posts (uniform height, set into ground) -->
+        <line x1="96" y1="54" x2="96" y2="214" stroke="#5A4530" stroke-width="3.5"/>
+        <line x1="384" y1="54" x2="384" y2="252" stroke="#5A4530" stroke-width="3.5"/>
+        <ellipse cx="96" cy="210" rx="10" ry="6" fill="#9a9a96" opacity="0.7"/>
+        <ellipse cx="384" cy="248" rx="10" ry="6" fill="#9a9a96" opacity="0.7"/>
+        <!-- wall mesh -->
+        <rect x="98" y="62" width="6" height="148" fill="url(#mesh4)"/>
+        <rect x="378" y="62" width="6" height="186" fill="url(#mesh4)"/>
+
+        <!-- level sill line -->
+        <line x1="96" y1="190" x2="384" y2="190" stroke="#5A4530" stroke-width="1.6" stroke-dasharray="4 3"/>
+
+        <!-- WEDGE under the level sill on the low (right) side -->
+        <polygon points="96,190 384,190 384,235 96,196" fill="url(#wedgehatch)"/>
+
+        <!-- Hutch on a paver pad at the DRY HIGH (left) end, near grade -->
+        <rect x="100" y="178" width="86" height="16" fill="#9a9a96" opacity="0.55" stroke="#5A4530" stroke-width="1.2"/>
+        <rect x="108" y="120" width="72" height="58" rx="3" fill="#8B6F47" opacity="0.5" stroke="#5A4530" stroke-width="2"/>
+        <path d="M 106 120 L 144 106 L 182 120 Z" fill="#5A4530" opacity="0.4"/>
+
+        <!-- skirt strip closing the low-side wedge + footer (no hutch at this end) -->
+        <polygon points="300,190 384,190 384,235 300,225" fill="url(#mesh4)" stroke="#3D5A3F" stroke-width="1.4" opacity="0.95"/>
+        <polygon points="384,235 440,241 440,247 384,241" fill="url(#mesh4)" stroke="#3D5A3F" stroke-width="1.4" opacity="0.95"/>
+
+        <!-- High-side footer -->
+        <polygon points="96,196 50,190 50,196 96,202" fill="url(#mesh4)" stroke="#3D5A3F" stroke-width="1.3" opacity="0.9"/>
+
+        <!-- Wall height dim -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none"><line x1="74" y1="54" x2="74" y2="190"/><line x1="69" y1="54" x2="79" y2="54"/><line x1="69" y1="190" x2="79" y2="190"/></g>
+        <text x="62" y="124" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#A8533A" transform="rotate(-90 62 124)">~6½ ft (uniform)</text>
+        <!-- Drop dim -->
+        <g stroke="#A8533A" stroke-width="0.8" fill="none"><line x1="404" y1="190" x2="404" y2="235"/><line x1="399" y1="190" x2="409" y2="190"/><line x1="399" y1="235" x2="409" y2="235"/></g>
+        <text x="448" y="216" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#A8533A">≤12 in</text>
+
+        <g font-family="Crimson Pro, serif" font-size="12" font-style="italic" fill="#2A2218">
+          <text x="150" y="48">level top frame</text>
+          <text x="60" y="262">hutch on pad (dry high end)</text>
+          <line x1="120" y1="256" x2="140" y2="180" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+          <text x="296" y="300">skirt + footer (low end)</text>
+          <line x1="356" y1="294" x2="384" y2="240" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+        </g>
+        <text x="240" y="20" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="0.16em" fill="#5A4A38">— SLOPE CROSS-SECTION —</text>
+      </svg>
+      <div class="diagram-caption">level top frame · hutch at the dry high end · skirt closes the low-end wedge</div>
+    </div>
+
+    <div class="specs">
+      <div><span>Frame:</span> <strong>build the top frame dead level; set posts deeper on the high side so the top stays horizontal</strong></div>
+      <div><span>Walls:</span> <strong>uniform ~6½ ft of mesh all around</strong></div>
+      <div><span>Skirt strip:</span> <strong>cloth along the downhill edges, lapped to the ground, bottom 12" bent outward as footer</strong></div>
+      <div><span>Hutch end:</span> <strong>at the dry high end the hutch sits near grade — little to no wedge, so its pad just keeps wood off the dirt</strong></div>
+      <div><span>Anchor:</span> <strong>deck side bolts to the deck posts; set the other posts in concrete; gravel the downhill edge</strong></div>
+    </div>
+
+    <div class="body-text">
+      <p>On a mild slope you don't terrace — you build the top dead level and let the floor stay sloped. The only wedge gap is along the low (downhill) end, and with the hutch now at the opposite high end, that gap is simply closed by the skirt strip with nothing in the way. The hutch sits at the dry high end where there's little to no wedge, so its pad only has to keep wood off the damp ground.</p>
+    </div>
+  </section>
+
+  <!-- PLAN 05: HUTCH INSIDE -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Plan 05</span></div>
+    <h2>Hutch Inside the Run</h2>
+    <span class="use-when">Existing hutch · high/dry end · shelter only</span>
+
+    <div class="specs">
+      <div><span>Placement:</span> <strong>fully inside the run on the high/driest end; its own door just opens into the run</strong></div>
+      <div><span>No collar:</span> <strong>because it's inside the predator-tight perimeter, you don't need to seal it to a run wall or line its welded-wire sides</strong></div>
+      <div><span>Base:</span> <strong>paver pad over ~2" gravel — keeps wood off damp dirt (no rot) and dig-proof; near grade at the high end, so no wedge to fill</strong></div>
+      <div><span>Air gap:</span> <strong>rubber/plastic feet or a PT 2×4 skid between hutch and pavers; seal the base rails with a pet-safe exterior sealer, cured before they're back in</strong></div>
+      <div><span>Drainage:</span> <strong>set the pad a touch proud of grade; being the high end, it sheds naturally — no swale needed here</strong></div>
+      <div><span>Roof:</span> <strong>angle the hutch's own lid to shed away from the open run</strong></div>
+      <div><span>Open bottom:</span> <strong>if they stand on the pavers, cover with a mat/straw to prevent sore hocks</strong></div>
+    </div>
+
+    <div class="body-text">
+      <p>Moving the hutch inside the fence removes the trickiest detail from the earlier plan — there's no longer a hutch-to-run seam to predator-proof. The hutch becomes pure shelter; the walk-in run's perimeter does all the defending. Putting it at the high end is the right call: it's the driest spot, so the pad mostly just keeps wood off the ground, and the slope's wedge is dealt with separately at the far low end.</p>
+    </div>
+  </section>
+
+  <!-- BILL OF MATERIALS -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Materials</span></div>
+    <h2>Bill of Materials</h2>
+    <span class="use-when">8 × 8 × ~6½ ft walk-in · dirt floor · deck-attached</span>
+
+    <div class="bom-label">Lumber &amp; framing</div>
+    <div class="specs">
+      <div><span>4 ×</span> <strong>4×4×8 ft pressure-treated — corner posts (set in concrete)</strong></div>
+      <div><span>~26 ×</span> <strong>2×4×8 ft — top plates, bottom sills, mid-rails, wall studs, door frame, roof joists</strong></div>
+    </div>
+    <p class="note">Rough breakdown: 4 top plates + 4 bottom sills + 4 mid-rails + ~8 wall studs + ~3 for the door frame + ~3 roof joists. Exact count depends on stud spacing (~24–32") and door size. Set posts ~1½ ft deep so ~6½ ft stands clear.</p>
+
+    <div class="bom-label">Hardware cloth &amp; mesh — ½" galvanized</div>
+    <div class="specs">
+      <div><span>2 ×</span> <strong>100 ft × 48" ½" hardware cloth rolls — full-height walls + footer + roof + door (max safety)</strong></div>
+      <div><span>— or —</span> <strong>1× 100 ft ½" cloth (lower ~4 ft + footer + roof) + 1× 50 ft 1" welded wire (upper walls) to save cost</strong></div>
+    </div>
+    <p class="note">The walls are now ~6½ ft tall, so wall mesh more than doubles vs. the old 3-ft box (~32 ft perimeter × ~6½ ft + footer + 64 sq ft roof ≈ 130 linear ft of 48" cloth). The lower ~4 ft and the whole roof must be ½" hardware cloth; upper walls can be 1" welded wire since the covered top stops climbers.</p>
+
+    <div class="bom-label">Roof shade panel</div>
+    <div class="specs">
+      <div><span>2 ×</span> <strong>~26" × 8 ft corrugated polycarbonate (or one 4×8 ply) — over the low/sunny end, on top of the mesh</strong></div>
+    </div>
+
+    <div class="bom-label">Door &amp; post setting</div>
+    <div class="specs">
+      <div><span>1 set</span> <strong>3 exterior hinges + raccoon-proof two-step latch (or barrel bolt + carabiner)</strong></div>
+      <div><span>4 bags</span> <strong>fast-setting concrete — set the non-deck posts (the 2 deck-side posts bolt to the deck instead)</strong></div>
+      <div><span>4 ×</span> <strong>⅜" × 4" lag screws + washers — bolt the deck-side wall to the deck posts</strong></div>
+    </div>
+
+    <div class="bom-label">Hutch base (inside, high end)</div>
+    <div class="specs">
+      <div><span>4–6 ×</span> <strong>concrete pavers (or large stepping stones) — raised pad under the hutch</strong></div>
+      <div><span>~3 cu ft</span> <strong>gravel — pad bed + downhill-edge drainage</strong></div>
+      <div><span>1 ×</span> <strong>pet-safe exterior wood sealer — hutch base rails &amp; feet</strong></div>
+      <div><span>4 ×</span> <strong>rubber/plastic feet (or 1 PT 2×4×8 for skids) — air gap under the hutch</strong></div>
+    </div>
+
+    <div class="bom-label">Fasteners &amp; hardware</div>
+    <div class="specs">
+      <div><span>1 lb</span> <strong>3" exterior deck screws — frame joints</strong></div>
+      <div><span>1 box</span> <strong>structural/exterior screws or post brackets — 4×4 connections</strong></div>
+      <div><span>2 lb</span> <strong>poultry/fence staples + fender washers — cloth to wood (more wall area now)</strong></div>
+      <div><span>1 pack</span> <strong>stainless hog rings (+ pliers) or zip ties — cloth-to-cloth seams</strong></div>
+      <div><span>50 pk</span> <strong>6" landscape staples — pin the footer + skirt</strong></div>
+    </div>
+
+    <div class="bom-label">Tools</div>
+    <div class="specs">
+      <div><span>—</span> <strong>drill/driver, post-hole digger, aviation snips/cloth cutters, heavy gloves, tape, square, level, hammer/staple gun, socket or wrench, safety glasses</strong></div>
+    </div>
+
+    <p class="note">A walk-in roughly doubles the old $200–300 estimate — figure ~$400–600, the hardware-cloth and posts/concrete being the biggest swings. Prices move and vary by region; treat it as a ballpark, not a quote.</p>
+  </section>
+
+  <!-- BUILD SEQUENCE -->
+  <section class="method">
+    <div class="method-head"><span class="method-num">Build</span></div>
+    <h2>Step-by-Step Construction</h2>
+    <span class="use-when">Order of operations · read it all before starting</span>
+
+    <div class="warn">
+      <b>Before you start</b> — wear heavy gloves the whole time; cut ½" hardware cloth edges slice skin. Dry-fit lumber with a couple of screws before driving everything home, and keep checking square (equal diagonals) and level as you go. Fold or cap every cut mesh end so nothing sharp sits at rabbit height.
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">01</span>Site prep &amp; layout</div>
+      <ol class="steps">
+        <li>Clear the 8×8 footprint plus ~2 ft of working room around it — pull weeds and grass, and fully remove the toxic lilies; keep the thorny rose bush outside the build zone.</li>
+        <li>String-level across the 8 ft to confirm the drop: high end by the deck/crawlspace door, low end downhill. Confirm it's in the mild 3–12" range (if it's more, you terrace instead — stop and re-plan).</li>
+        <li>Mark the 8×8 square with stakes and string. Square it with the 3-4-5 method (6 ft on one side, 8 ft on the other, diagonal reads 10 ft), then confirm both diagonals are equal.</li>
+        <li>Mark the four corner-post spots at the string intersections; note the two that sit against the deck.</li>
+      </ol>
+      <div class="diagram">
+        <svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Squaring the footprint with equal diagonals and a 3-4-5 check">
+          <rect x="110" y="34" width="190" height="190" fill="#3D5A3F" opacity="0.06" stroke="#3D5A3F" stroke-width="2"/>
+          <g fill="#5A4530"><circle cx="110" cy="34" r="4"/><circle cx="300" cy="34" r="4"/><circle cx="110" cy="224" r="4"/><circle cx="300" cy="224" r="4"/></g>
+          <line x1="110" y1="34" x2="300" y2="224" stroke="#A8533A" stroke-width="1.2" stroke-dasharray="5 4"/>
+          <line x1="300" y1="34" x2="110" y2="224" stroke="#A8533A" stroke-width="1.2" stroke-dasharray="5 4"/>
+          <text x="205" y="150" text-anchor="middle" font-family="Crimson Pro, serif" font-size="12" font-style="italic" fill="#2A2218">both diagonals equal</text>
+          <text x="205" y="22" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#A8533A">8 ft</text>
+          <text x="92" y="133" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#A8533A" transform="rotate(-90 92 133)">8 ft</text>
+          <text x="318" y="108" font-family="Crimson Pro, serif" font-size="12" font-style="italic" fill="#3D5A3F">or 3-4-5:</text>
+          <text x="318" y="126" font-family="Crimson Pro, serif" font-size="11" fill="#5A4A38">6 ft &amp; 8 ft legs</text>
+          <text x="318" y="141" font-family="Crimson Pro, serif" font-size="11" fill="#5A4A38">→ 10 ft diagonal</text>
+        </svg>
+        <div class="diagram-caption">square check · equal diagonals (or the 3-4-5 rule)</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">02</span>Set the posts</div>
+      <ol class="steps">
+        <li>Dig the two non-deck corner holes ~10–12" wide × ~18–24" deep (add mid-span post holes if a wall feels flimsy at 8 ft).</li>
+        <li>Stand a 4×4 in each hole. Position the two deck-side 4×4s against the deck framing — those get bolted, not dug.</li>
+        <li>Set a level top across all posts: on the slope, the high-side posts sit deeper so every post top lands at the same height (~6½ ft above the high-side grade). Use a line level or laser.</li>
+        <li>Plumb each post on two faces, brace with scrap, then pour fast-setting concrete in the dug holes. Bolt each deck-side post to the deck with two ⅜" × 4" lag screws + washers.</li>
+        <li>Let the concrete cure (per the bag) before you hang any weight on the frame.</li>
+      </ol>
+      <p class="tip">Tip: setting the top level — not the ground — is the whole trick on a slope. The floor staying tilted is fine.</p>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">03</span>Frame the walls &amp; roof structure</div>
+      <ol class="steps">
+        <li>Screw the four top plates (2×4×8) post-to-post around the top, dead level — this locks the box square.</li>
+        <li>Add the four bottom sills near grade, also level (they float above grade on the low side — expected).</li>
+        <li>Add one mid-rail per wall at about mid-height for mesh backing and rigidity.</li>
+        <li>Add vertical studs between plates every ~24–32" (roughly two per wall) to back the mesh.</li>
+        <li>Frame the door's rough opening in a front-wall bay: two king studs with a header at ~6 ft, leaving a ~30" wide × ~6 ft opening.</li>
+        <li>Lay the three roof joists across the 8 ft top, splitting it into bays. Use structural screws or post/beam brackets at the 4×4 connections.</li>
+      </ol>
+      <div class="diagram">
+        <svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Front wall framing elevation with posts, plates, mid-rail, studs, and the door rough opening">
+          <rect x="44" y="44" width="12" height="206" fill="#8B6F47" opacity="0.6" stroke="#5A4530" stroke-width="1.2"/>
+          <rect x="404" y="44" width="12" height="206" fill="#8B6F47" opacity="0.6" stroke="#5A4530" stroke-width="1.2"/>
+          <rect x="44" y="44" width="372" height="12" fill="#8B6F47" opacity="0.5" stroke="#5A4530" stroke-width="1.2"/>
+          <rect x="44" y="238" width="372" height="12" fill="#8B6F47" opacity="0.5" stroke="#5A4530" stroke-width="1.2"/>
+          <rect x="56" y="142" width="348" height="10" fill="#8B6F47" opacity="0.45" stroke="#5A4530" stroke-width="1"/>
+          <rect x="120" y="56" width="10" height="182" fill="#8B6F47" opacity="0.45" stroke="#5A4530" stroke-width="1"/>
+          <rect x="196" y="56" width="10" height="182" fill="#8B6F47" opacity="0.45" stroke="#5A4530" stroke-width="1"/>
+          <rect x="286" y="56" width="10" height="182" fill="#8B6F47" opacity="0.6" stroke="#5A4530" stroke-width="1.1"/>
+          <rect x="372" y="56" width="10" height="182" fill="#8B6F47" opacity="0.6" stroke="#5A4530" stroke-width="1.1"/>
+          <rect x="286" y="74" width="96" height="10" fill="#8B6F47" opacity="0.6" stroke="#5A4530" stroke-width="1.1"/>
+          <rect x="296" y="84" width="76" height="154" fill="#F0E8D4" opacity="0.5" stroke="#5A4530" stroke-width="0.8" stroke-dasharray="3 2"/>
+          <text x="334" y="164" text-anchor="middle" font-family="Crimson Pro, serif" font-size="11" font-style="italic" fill="#5A4A38">door</text>
+          <text x="334" y="179" text-anchor="middle" font-family="Crimson Pro, serif" font-size="11" font-style="italic" fill="#5A4A38">opening</text>
+          <g font-family="Crimson Pro, serif" font-size="11.5" font-style="italic" fill="#2A2218">
+            <text x="6" y="40">top plate</text>
+            <text x="6" y="262">bottom sill</text>
+            <text x="6" y="152">4×4 post</text>
+            <text x="110" y="138">mid-rail</text>
+            <text x="150" y="208" text-anchor="middle">stud</text>
+            <text x="334" y="68" text-anchor="middle" font-size="10">header</text>
+          </g>
+          <text x="334" y="295" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#A8533A">~30" × ~6 ft</text>
+        </svg>
+        <div class="diagram-caption">one framed wall · door bay on the right</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">04</span>Dig the footer trench</div>
+      <ol class="steps">
+        <li>Around the full outside perimeter, dig a trench ~8–12" deep tight against the sills.</li>
+        <li>Cut an outward shelf ~12–18" wide and a few inches deep off the bottom of that trench — this is where the apron lies flat.</li>
+        <li>Where the run meets the deck, keep the footer tight to the deck base with no gap wider than ½".</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">05</span>Hang the wall mesh</div>
+      <ol class="steps">
+        <li>Work the ½" hardware cloth along the inside face of the frame, in horizontal bands, starting at a corner.</li>
+        <li>Lower band (48" cloth): ~36" covers the wall while the bottom ~12" drops into the trench as the buried leg, then bends outward along the shelf as the 12–18" apron.</li>
+        <li>Staple to every framing member every ~4" with poultry staples; add fender washers at high-stress spots.</li>
+        <li>Upper band: run the second course (½" cloth for max safety, or 1" welded wire to save cost) from the mid-rail to the top plate, overlapping the lower band ~2".</li>
+        <li>Seam every cloth-to-cloth overlap — corners and band overlaps — with stainless hog rings or zip ties every ~4" so no gap exceeds ½".</li>
+        <li>Pin the apron flat in its shelf with 6" landscape staples every 8–12".</li>
+      </ol>
+      <div class="diagram">
+        <svg viewBox="0 0 420 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Wall mesh in two overlapping bands dropping into the buried L footer with outward apron">
+          <defs>
+            <pattern id="meshb" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M 8 0 L 0 0 0 8" stroke="#3D5A3F" stroke-width="0.55" fill="none" opacity="0.7"/></pattern>
+            <pattern id="soilb" x="0" y="0" width="11" height="11" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="0.6" fill="#5A4530" opacity="0.5"/><circle cx="8" cy="8" r="0.55" fill="#5A4530" opacity="0.45"/></pattern>
+          </defs>
+          <rect x="0" y="150" width="420" height="80" fill="#8B6F47" opacity="0.13"/>
+          <rect x="0" y="150" width="420" height="80" fill="url(#soilb)"/>
+          <line x1="0" y1="150" x2="420" y2="150" stroke="#2A2218" stroke-width="1.1"/>
+          <text x="40" y="28" font-family="JetBrains Mono, monospace" font-size="10" fill="#3D5A3F">INSIDE</text>
+          <text x="338" y="28" font-family="JetBrains Mono, monospace" font-size="10" fill="#A8533A">OUTSIDE</text>
+          <line x1="214" y1="26" x2="214" y2="150" stroke="#5A4530" stroke-width="2.5"/>
+          <rect x="204" y="30" width="10" height="78" fill="url(#meshb)" stroke="#3D5A3F" stroke-width="1.4"/>
+          <rect x="204" y="100" width="10" height="50" fill="url(#meshb)" stroke="#3D5A3F" stroke-width="1.4"/>
+          <rect x="201" y="100" width="16" height="8" fill="none" stroke="#A8533A" stroke-width="1" stroke-dasharray="2 2"/>
+          <rect x="204" y="150" width="10" height="62" fill="url(#meshb)" stroke="#3D5A3F" stroke-width="1.4" opacity="0.9"/>
+          <rect x="214" y="156" width="130" height="8" fill="url(#meshb)" stroke="#3D5A3F" stroke-width="1.4" opacity="0.9"/>
+          <g stroke="#A8533A" stroke-width="1.3" fill="none" stroke-linecap="round"><path d="M 252 150 L 252 162 M 248 154 L 256 154"/><path d="M 302 150 L 302 162 M 298 154 L 306 154"/></g>
+          <g stroke="#A8533A" stroke-width="0.7" fill="none"><line x1="230" y1="150" x2="230" y2="212"/><line x1="226" y1="150" x2="234" y2="150"/><line x1="226" y1="212" x2="234" y2="212"/></g>
+          <text x="246" y="196" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#A8533A">buried 8–12"</text>
+          <g stroke="#A8533A" stroke-width="0.7" fill="none"><line x1="214" y1="176" x2="344" y2="176"/><line x1="214" y1="172" x2="214" y2="180"/><line x1="344" y1="172" x2="344" y2="180"/></g>
+          <text x="279" y="192" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#A8533A">apron 12–18"</text>
+          <g font-family="Crimson Pro, serif" font-size="11.5" font-style="italic" fill="#2A2218">
+            <text x="56" y="60">upper band</text>
+            <line x1="116" y1="56" x2="202" y2="64" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+            <text x="44" y="128">lower band (48")</text>
+            <line x1="150" y1="124" x2="202" y2="128" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+            <text x="232" y="98" font-size="10.5">overlap ~2" → hog-ring</text>
+          </g>
+        </svg>
+        <div class="diagram-caption">two mesh bands overlap; bottom bends into the buried L</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">06</span>Close the slope wedge</div>
+      <ol class="steps">
+        <li>On the downhill end, where the level sill floats above grade, cut a 24"-tall skirt strip of cloth.</li>
+        <li>Lap it over the lower wall mesh and the sill, carry it down to the actual ground, and bend the bottom 12" outward as footer.</li>
+        <li>Hog-ring the overlap every ~4" and pin the footer with landscape staples.</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">07</span>Build &amp; hang the door</div>
+      <ol class="steps">
+        <li>Build a 2×4 door frame to fit the opening with ~¼" clearance all around (≈29½" × ≈5'11").</li>
+        <li>Skin it with ½" hardware cloth stapled to the inside face; fold or cap the cut edges.</li>
+        <li>Hang it on three exterior hinges fixed to one king stud.</li>
+        <li>Fit the raccoon-proof two-step latch (or barrel bolt + spring carabiner) on the latch side, plus a hook or turn-button low down so it can't be nosed open.</li>
+        <li>Check it swings clear and closes with no gap wider than ½" anywhere around the frame.</li>
+      </ol>
+      <div class="diagram">
+        <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Door construction: 2x4 frame, mesh skin, three hinges, raccoon-proof latch, bottom hook">
+          <defs><pattern id="meshd" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M 8 0 L 0 0 0 8" stroke="#3D5A3F" stroke-width="0.55" fill="none" opacity="0.7"/></pattern></defs>
+          <rect x="80" y="30" width="150" height="252" fill="#8B6F47" opacity="0.5" stroke="#5A4530" stroke-width="2"/>
+          <rect x="92" y="42" width="126" height="228" fill="url(#meshd)" stroke="#3D5A3F" stroke-width="1"/>
+          <g fill="#A8533A"><rect x="74" y="60" width="10" height="16" rx="1"/><rect x="74" y="148" width="10" height="16" rx="1"/><rect x="74" y="236" width="10" height="16" rx="1"/></g>
+          <rect x="226" y="146" width="12" height="20" rx="1" fill="#A8533A"/>
+          <circle cx="155" cy="276" r="4" fill="none" stroke="#A8533A" stroke-width="1.5"/>
+          <g stroke="#A8533A" stroke-width="0.7" fill="none"><line x1="80" y1="20" x2="230" y2="20"/><line x1="80" y1="16" x2="80" y2="24"/><line x1="230" y1="16" x2="230" y2="24"/></g>
+          <text x="155" y="13" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#A8533A">~30"</text>
+          <g stroke="#A8533A" stroke-width="0.7" fill="none"><line x1="250" y1="30" x2="250" y2="282"/><line x1="246" y1="30" x2="254" y2="30"/><line x1="246" y1="282" x2="254" y2="282"/></g>
+          <text x="266" y="156" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#A8533A" transform="rotate(-90 266 156)">~6 ft</text>
+          <g font-family="Crimson Pro, serif" font-size="11.5" font-style="italic" fill="#2A2218">
+            <text x="6" y="72">3 hinges</text>
+            <text x="155" y="118" text-anchor="middle">2×4 frame +</text>
+            <text x="155" y="133" text-anchor="middle">½" mesh skin</text>
+            <text x="222" y="140" text-anchor="end">latch</text>
+            <text x="155" y="302" text-anchor="middle" font-size="10.5">hook (anti-nose) at the bottom</text>
+          </g>
+        </svg>
+        <div class="diagram-caption">door · hinges one side, raccoon-proof latch the other</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">08</span>Mesh &amp; cover the roof</div>
+      <ol class="steps">
+        <li>Mesh the entire top: lay ½" hardware cloth across all roof joists, overlap strips ~2", and staple to every joist every ~4".</li>
+        <li>Hog-ring the roof mesh to the top-plate wall mesh all the way around — the roof-to-wall seam is a favorite climber entry, so leave zero gap.</li>
+        <li>Lay the corrugated shade panels on top of the mesh over the sunny-end half; screw through the ridges into the joists with washered screws. Leave the other half open mesh for airflow.</li>
+        <li>Give the panels a slight slope/overhang so rain sheds off the downhill side, away from the door.</li>
+      </ol>
+      <div class="diagram">
+        <svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Roof-to-wall corner: roof mesh and wall mesh overlapped and hog-ringed, shade panel on top">
+          <defs><pattern id="meshr" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M 8 0 L 0 0 0 8" stroke="#3D5A3F" stroke-width="0.55" fill="none" opacity="0.7"/></pattern></defs>
+          <rect x="120" y="72" width="210" height="12" fill="#8B6F47" opacity="0.55" stroke="#5A4530" stroke-width="1.2"/>
+          <rect x="120" y="84" width="12" height="140" fill="#8B6F47" opacity="0.55" stroke="#5A4530" stroke-width="1.2"/>
+          <rect x="120" y="60" width="210" height="12" fill="url(#meshr)" stroke="#3D5A3F" stroke-width="1.3"/>
+          <rect x="210" y="52" width="120" height="8" fill="#5A4530" opacity="0.55"/>
+          <rect x="108" y="84" width="12" height="140" fill="url(#meshr)" stroke="#3D5A3F" stroke-width="1.3"/>
+          <rect x="104" y="58" width="28" height="22" fill="none" stroke="#A8533A" stroke-width="1.2" stroke-dasharray="2 2"/>
+          <g fill="#A8533A"><circle cx="116" cy="64" r="2"/><circle cx="124" cy="70" r="2"/><circle cx="114" cy="76" r="2"/></g>
+          <g font-family="Crimson Pro, serif" font-size="11.5" font-style="italic" fill="#2A2218">
+            <text x="196" y="44">shade panel on top</text>
+            <line x1="248" y1="48" x2="262" y2="52" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+            <text x="206" y="100">roof mesh</text>
+            <line x1="234" y1="96" x2="222" y2="72" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+            <text x="36" y="150">wall mesh</text>
+            <line x1="80" y1="146" x2="108" y2="146" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+            <text x="6" y="60">hog-ring</text>
+            <text x="6" y="74">the seam</text>
+            <line x1="52" y1="66" x2="104" y2="68" stroke="#2A2218" stroke-width="0.5" fill="none"/>
+          </g>
+        </svg>
+        <div class="diagram-caption">roof-to-wall seam · hog-ring tight, then panel on top</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">09</span>Backfill &amp; drainage</div>
+      <ol class="steps">
+        <li>Backfill the footer trench over the apron with the excavated soil; tamp it and re-lay sod if you have it.</li>
+        <li>Lay gravel along the downhill edge so the low corner sheds instead of pooling.</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">10</span>Hutch pad &amp; placement</div>
+      <ol class="steps">
+        <li>On the high/dry end, level a ~2" gravel bed and set 4–6 pavers flat and level, a touch proud of grade.</li>
+        <li>Seal the hutch's base rails and feet with the pet-safe exterior sealer; let it fully cure and off-gas.</li>
+        <li>Set the hutch on rubber feet or a PT 2×4 skid on the pavers for an air gap; angle its lid to shed away from the open run.</li>
+        <li>If it's open-bottom and they'll stand on the pavers, lay a mat or straw so they don't get sore hocks.</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label"><span class="pn">11</span>Final safety check &amp; move-in</div>
+      <ol class="steps">
+        <li>Walk the whole perimeter inside and out, pressing on every panel and seam — anything that flexes open or shows a gap &gt; ½" gets another staple or hog ring.</li>
+        <li>Test the latch the way a raccoon would: paw-poke, nose, and lift.</li>
+        <li>Confirm no sharp cut-mesh ends sit at rabbit height; fold or cap any you find.</li>
+        <li>Add the hides, tunnel, water, and litter trays in their corners, then let the rabbits in and watch them through the first day.</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="warn" style="margin-top:40px;">
+    <b>Heat is the silent killer in NC</b> — rabbits handle cold far better than heat and can suffer fatal heat stroke above ~80–85°F. The taller walk-in actually helps (more air volume), but still site it in afternoon shade — the deck shades the hutch end and the panel shades the open end — and in summer add a frozen water bottle or a ceramic tile. Shade and fresh water matter as much as the mesh.
+  </div>
+
+  <footer>
+    Field Bulletin <span class="mark">·</span> Youngsville NC <span class="mark">·</span> Walk-in · level top · full mesh · buried footer · hutch inside
+  </footer>
+
+</div>
+</body>
+</html>
