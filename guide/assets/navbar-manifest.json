@@ -1,0 +1,23 @@
+{
+  "site": {
+    "title": "justtellmehowto",
+    "home": "index.html"
+  },
+  "links": [
+    {
+      "label": "Squirrel Exclusion",
+      "href": "protect-garden-from-squirrels.html",
+      "blurb": "Peanut patch · three methods"
+    },
+    {
+      "label": "Rabbit Run — DIY",
+      "href": "rabbit-run-plan.html",
+      "blurb": "8 × 8 walk-in · from scratch"
+    },
+    {
+      "label": "Rabbit Run — Kit",
+      "href": "rabbit-run-kit-plan.html",
+      "blurb": "12 × 9 walk-in · kit upgrades"
+    }
+  ]
+}

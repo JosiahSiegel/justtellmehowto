@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>justtellmehowto — Guides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--parchment:#F0E8D4;--parchment-deep:#E5DBC0;--ink:#2A2218;--ink-soft:#5A4A38;--green:#3D5A3F;--green-deep:#2A4030;--rust:#A8533A;--soil:#8B6F47;--soil-deep:#5A4530;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--parchment);color:var(--ink);font-family:'Crimson Pro',Georgia,serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+body{background-image:radial-gradient(ellipse at top,rgba(168,83,58,0.06),transparent 60%),radial-gradient(ellipse at bottom right,rgba(61,90,63,0.07),transparent 60%);min-height:100vh;padding:28px 18px 60px;position:relative;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.15 0 0 0 0 0.1 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:0.55;z-index:0;}
+.wrap{max-width:720px;margin:0 auto;position:relative;z-index:1;}
+header{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:22px;margin-bottom:12px;position:relative;}
+header::after{content:'';display:block;width:100%;border-bottom:1px solid var(--ink);position:absolute;bottom:-5px;left:0;}
+.bulletin{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--rust);margin-bottom:14px;}
+h1{font-family:'IM Fell English SC',serif;font-size:clamp(28px,6vw,38px);font-weight:400;line-height:1.08;letter-spacing:0.015em;}
+.sub{font-style:italic;color:var(--ink-soft);margin-top:12px;font-size:14px;}
+.lead{font-style:italic;color:var(--ink-soft);text-align:center;margin:28px auto 6px;max-width:540px;font-size:15px;}
+
+.index-list{list-style:none;margin:32px 0 8px;padding:0;border-top:1px solid rgba(42,34,24,0.28);}
+.index-list li{border-bottom:1px solid rgba(42,34,24,0.28);}
+.index-list a{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:18px 4px;text-decoration:none;color:inherit;transition:background-color 120ms ease,padding-left 120ms ease;}
+.index-list a:hover{background:rgba(61,90,63,0.06);padding-left:12px;}
+.index-list a:hover .ix-label{color:var(--green-deep);}
+.ix-num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.22em;color:var(--rust);text-transform:uppercase;flex:0 0 auto;min-width:64px;}
+.ix-label{font-family:'IM Fell English SC',serif;font-size:clamp(20px,4.4vw,24px);font-weight:400;color:var(--ink);transition:color 120ms ease;flex:1 1 auto;}
+.ix-blurb{font-style:italic;color:var(--ink-soft);font-size:13.5px;flex:0 0 100%;padding-left:78px;margin-top:2px;}
+
+footer{margin-top:56px;padding-top:18px;border-top:1px solid rgba(42,34,24,0.3);text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-soft);}
+
+@media (max-width:480px){
+  .ix-num{min-width:54px;}
+  .ix-blurb{padding-left:0;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .index-list a,.ix-label{transition:none;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="bulletin">Field Bulletin · Index</div>
+    <h1>justtellmehowto</h1>
+    <div class="sub">Practical, plain-English guides.</div>
+  </header>
+
+  <p class="lead">Each guide is a single self-contained page you can read, save, and use without an account, a newsletter, or a popup. Pick one:</p>
+
+  <ul class="index-list">
+    <li>
+      <a href="protect-garden-from-squirrels.html">
+        <span class="ix-num">No 01</span>
+        <span class="ix-label">Squirrel Exclusion</span>
+        <span class="ix-blurb">Peanut patch · three methods</span>
+      </a>
+    </li>
+    <li>
+      <a href="rabbit-run-plan.html">
+        <span class="ix-num">No 02</span>
+        <span class="ix-label">Rabbit Run — DIY</span>
+        <span class="ix-blurb">8 × 8 walk-in · built from scratch</span>
+      </a>
+    </li>
+    <li>
+      <a href="rabbit-run-kit-plan.html">
+        <span class="ix-num">No 03</span>
+        <span class="ix-label">Rabbit Run — Kit</span>
+        <span class="ix-blurb">12 × 9 walk-in · kit upgrades</span>
+      </a>
+    </li>
+  </ul>
+
+  <footer>
+    justtellmehowto <span style="display:inline-block;margin:0 8px;color:var(--rust);">·</span> open <span style="display:inline-block;margin:0 8px;color:var(--rust);">·</span> plain text
+  </footer>
+
+</div>
+
+<!-- Shared navbar: see guide/assets/navbar.js -->
+<script src="assets/navbar.js" defer></script>
+</body>
+</html>

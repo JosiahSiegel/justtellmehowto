@@ -1,0 +1,172 @@
+/* justtellmehowto — shared navbar
+   Inherits --ink, --parchment, --green, --rust, --ink-soft, --parchment-deep
+   from the host page's :root, so the navbar matches each guide's look
+   without any per-page CSS edits. */
+
+.jtn-bar {
+  position: relative;
+  z-index: 50;
+  background: var(--parchment-deep, #E5DBC0);
+  border-bottom: 1px solid rgba(42, 34, 24, 0.28);
+  font-family: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  color: var(--ink, #2A2218);
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 1px 0 rgba(42, 34, 24, 0.06);
+}
+
+.jtn-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent 60%),
+    radial-gradient(ellipse at top, rgba(168, 83, 58, 0.05), transparent 70%);
+}
+
+.jtn-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 14px 18px 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* Brand zone — sits on the left, styled like the page's own header. */
+.jtn-home {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+  color: var(--ink, #2A2218);
+  padding: 0;
+  line-height: 1.1;
+  min-width: 0;
+}
+
+.jtn-home-mark {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rust, #A8533A);
+  display: block;
+}
+
+.jtn-home-title {
+  font-family: 'IM Fell English SC', 'Crimson Pro', Georgia, serif;
+  font-size: clamp(20px, 3.6vw, 24px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--ink, #2A2218);
+  display: block;
+  transition: color 120ms ease;
+}
+
+.jtn-home:hover .jtn-home-title { color: var(--green-deep, #2A4030); }
+
+/* Links zone — sits on the right, single horizontal row of small caps items. */
+.jtn-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 2px;
+  align-items: center;
+}
+
+.jtn-links-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft, #5A4A38);
+  margin-right: 8px;
+  align-self: center;
+}
+
+.jtn-link {
+  display: inline-block;
+  padding: 5px 9px;
+  text-decoration: none;
+  color: var(--ink-soft, #5A4A38);
+  letter-spacing: 0.04em;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  white-space: nowrap;
+}
+
+.jtn-link:hover {
+  color: var(--ink, #2A2218);
+  background: rgba(61, 90, 63, 0.08);
+  border-color: rgba(61, 90, 63, 0.25);
+}
+
+.jtn-link[aria-current="page"] {
+  color: var(--green-deep, #2A4030);
+  background: rgba(61, 90, 63, 0.10);
+  border-color: var(--green, #3D5A3F);
+}
+
+.jtn-link[aria-current="page"]::before {
+  content: '◆ ';
+  color: var(--rust, #A8533A);
+  font-size: 9px;
+  margin-right: 2px;
+}
+
+.jtn-burger {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(42, 34, 24, 0.35);
+  color: var(--ink, #2A2218);
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  cursor: pointer;
+  border-radius: 2px;
+  align-self: center;
+  margin-left: 6px;
+}
+
+.jtn-burger:hover { background: rgba(61, 90, 63, 0.08); }
+
+.jtn-burger:focus-visible {
+  outline: 2px solid var(--green, #3D5A3F);
+  outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+  .jtn-inner {
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  .jtn-burger { display: inline-block; }
+  .jtn-links {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: flex-start;
+    display: none;
+    border-top: 1px dashed rgba(42, 34, 24, 0.22);
+    padding: 8px 0 4px;
+    margin-top: 4px;
+  }
+  .jtn-bar[data-open="true"] .jtn-links { display: flex; }
+  .jtn-links .jtn-link { flex-basis: auto; }
+  .jtn-links-label { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jtn-link, .jtn-home-title { transition: none; }
+}
